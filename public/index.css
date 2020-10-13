@@ -1,0 +1,99 @@
+#intro_box{
+    height: 500px;
+}
+.menu_items{
+   margin-right: 20px;
+   margin-left: 20px;
+   color: black;
+   font-weight: 200;
+   font-family: 'Raleway',sans-serif;
+
+}
+.nav-wrapper{
+   padding-right: 8%;
+}
+.authcard{
+   margin-top: 15%;
+   height: 100%;
+}
+#lets{
+
+   font-family: 'Advent Pro', sans-serif;
+   font-size:100px;
+   margin-left: 20%;
+
+
+}
+
+#collaborate{
+font-family: 'Advent Pro', sans-serif;
+   font-size:100px;
+color: white;
+margin-left: 20%;
+
+}
+.leftbox{
+margin-top:10%;
+line-height: 94px;
+}
+.tabs .tab a.active{
+   color: black;
+   
+}
+.tabs .tab a{
+   color: black;
+   
+}
+.hidetab{
+  display:none;
+   
+}
+
+#main_ill{
+   height: 200px;
+   margin-top: 60%;
+  
+}
+.input-field{
+   line-height: 3%;
+}
+.input-field input[type=text]:focus{
+   color:yellow;
+   border-bottom-color: yellow;
+} 
+#login_button{
+  margin-left: 30%;
+  margin-bottom: 24%;
+  margin-top: 10%;
+}
+#register_button{
+  margin-left: 30%;
+  margin-bottom: 24%;
+  margin-top: 10%;
+}
+.btn{
+   background-color:rgb(37, 37, 37);
+
+}
+#forgot{
+   text-decoration-line: underline;
+   margin-left: 24%;
+   color:rgb(37, 37, 37);
+}
+#already{
+   text-decoration-line: underline;
+   margin-left: 22%;
+   color:rgb(37, 37, 37);
+}
+
+.btn{
+   min-width: 100px;
+}
+#img1{
+   height: 50%;
+   margin-left: 30%;
+   margin-top: 20%;
+}
+#login_button{
+    color: white;
+}

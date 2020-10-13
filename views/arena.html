@@ -1,0 +1,111 @@
+<html>
+<title>Drawing board</title>
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet"> 
+</head>
+<style>
+.row .col{
+    padding:0px;
+    width: 100%;
+    min-height:100% ;
+    margin: 0%;
+    padding:0%;
+}
+#canvas_space{
+    padding :0px;
+    margin: 0%;
+  
+}
+#screen{
+    margin-bottom: 7%;
+}
+#brush_size{
+    margin-bottom: 14%;
+}
+#save{
+    margin-bottom: 21%;
+}
+#brush_shape{
+    margin-bottom: 28%;
+}
+</style>
+<body>
+   <nav class="nav-wrapper yellow">
+       <ul class="center">logo</ul>
+
+   </nav>
+
+ 
+       <div class=" center" id="canvas_space">
+ 
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large yellow">
+          <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+          <li id="red_pen"><a class="btn-floating red" onclick="change_color('red')" ></a></li>
+          <li><a class="btn-floating yellow darken-1" onclick="change_color('yellow')"></a></li>
+          <li><a class="btn-floating green" onclick="change_color('green')"></a></li>
+          <li><a class="btn-floating blue" onclick="change_color('blue')"></a></li>
+          <li><a class="btn-floating white" onclick="change_color('white')"></a></li>
+         </ul>
+      </div>
+       
+   </div>
+   <div class="fixed-action-btn" id="screen">
+    <a class="btn-floating btn-large yellow">
+      <i class="large material-icons">filter_frames</i>
+    </a>
+    <ul>
+      <li id="red_pen"><a class="btn-floating red" onclick="change_board_color('red',1)" ></a></li>
+      <li><a class="btn-floating yellow darken-1" onclick="change_board_color('yellow',1)"></a></li>
+      <li><a class="btn-floating green" onclick="change_board_color('green',1)"></a></li>
+      <li><a class="btn-floating blue" onclick="change_board_color('blue',1)"></a></li>
+      <li><a class="btn-floating white" onclick="change_board_color('white',1)"></a></li>
+      <li><a class="btn-floating black" onclick="change_board_color('black',1)"></a></li>
+     </ul>
+  </div>
+  <div class="fixed-action-btn" id="brush_size">
+    <a class="btn-floating btn-large yellow">
+      <i class="large material-icons">filter_frames</i>
+    </a>
+    <ul>
+      <li id="red_pen"><a class="btn-floating yellow" onclick="change_brush_size(1,1)" >1 px</a></li>
+      <li><a class="btn-floating yellow darken-1" onclick="change_brush_size(2,1)">2 px</a></li>
+      <li><a class="btn-floating yellow" onclick="change_brush_size(3,1)">3 px</a></li>
+      <li><a class="btn-floating yellow" onclick="change_brush_size(4,1)">4px</a></li>
+      <li><a class="btn-floating yellow" onclick="change_brush_size(5,1)">5 px</a></li>
+      <li><a class="btn-floating yellow" onclick="change_brush_size(6,1)">6px</a></li>
+     </ul>
+  </div>
+  <div class="fixed-action-btn" id="save">
+    <a class="btn-floating btn-large yellow" id="saver" onclick="save_image()">
+      <i class="large material-icons">filter_frames</i>
+    </a>
+   
+  </div>
+
+  <div class="fixed-action-btn" id="brush_shape">
+    <a class="btn-floating btn-large yellow">
+      <i class="large material-icons">filter_frames</i>
+    </a>
+    <ul>
+      <li id="red_pen"><a class="btn-floating yellow" onclick="change_to_rect(1)" >rec</a></li>
+      <li><a class="btn-floating yellow darken-1" onclick="change_to_circle(1)">circle</a></li>
+      <li><a class="btn-floating yellow" onclick="change_to_pen(1)">pen</a></li>
+     </ul>
+  </div>
+   
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<script src="./js/board.js"></script>
+
+
+</html>
