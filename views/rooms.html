@@ -1,7 +1,7 @@
 <html>
     <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet">
     <link href="../public/index.css" rel="stylesheet">
     <style>
@@ -17,12 +17,17 @@
             width: 30% !important;
            
         }
+        #room-img{
+            margin-left: 20%;
+            margin-top: 20%;
+        }
         
-    </style>3454
+    </style>
 </head>
 <body>
     <nav class="nav-wrapper yellow ">
-        <a href="#"class="menu_items">logo</a>
+        <a href="#"class="menu_items"><img height="75px" src="http://localhost:3000/images/logo_transparent.png"></a>
+       
         <ul id="nav-mobile" class="right hide-on-mid-and-down ">
             <li class="menu_items">Home</li>
             <li class="menu_items">About us</li>
@@ -31,14 +36,15 @@
     </nav>
 <div class="row">
 
-    <div class="col s6" id="inputs">
+
+    <div class="col s6">
+<img src="http://localhost:3000/images/undraw_Meeting_re_i53h.svg" class="center" id="room-img" height="45%">
+    </div>
+        <div class="col s6" id="inputs">
         <form method="POST" action="/join_room">
         <input type="text" name="room_id" id="already_done" class="links"><button class="waves-effect waves-light btn" type="submit">Join!</button>
     </form>
         <input type="text" id="new" class="links"><button  onclick="make_room()" class="waves-effect waves-light btn">new Room!</button>
-
-    </div>
-    <div class="col s6">
 
     </div>
 </div>

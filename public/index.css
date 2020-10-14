@@ -1,28 +1,51 @@
+html {
+   scroll-behavior: smooth;
+ }
 #intro_box{
-    height: 500px;
+    height: 620px;
+}
+#fbox{
+   height: 660px;
+   margin:0;
+}
+#whatbox{
+   height: 620px;
+}
+#logotext{
+   font-family: 'Muli',sans-serif;
+   font-weight: 900 !important;
+   font-size: large;
+   margin-bottom: 50% !important;
+   color: white;
 }
 .menu_items{
    margin-right: 20px;
    margin-left: 20px;
    color: black;
-   font-weight: 200;
+   font-weight: 400;
    font-family: 'Raleway',sans-serif;
 
+}
+.col{
+   margin-top: 3%;
+   margin-bottom: 4%;
 }
 .nav-wrapper{
    padding-right: 8%;
 }
-.authcard{
-   margin-top: 15%;
-   height: 100%;
+.card-content{
+   padding-right: 20% !important;
+
+}
+
+.card-tabs{
+   padding-top: 5%;
 }
 #lets{
 
    font-family: 'Advent Pro', sans-serif;
    font-size:100px;
    margin-left: 20%;
-
-
 }
 
 #collaborate{
@@ -36,14 +59,7 @@ margin-left: 20%;
 margin-top:10%;
 line-height: 94px;
 }
-.tabs .tab a.active{
-   color: black;
-   
-}
-.tabs .tab a{
-   color: black;
-   
-}
+
 .hidetab{
   display:none;
    
@@ -54,9 +70,10 @@ line-height: 94px;
    margin-top: 60%;
   
 }
-.input-field{
-   line-height: 3%;
+#feat{
+   color: rgb(56, 56, 77)
 }
+
 .input-field input[type=text]:focus{
    color:yellow;
    border-bottom-color: yellow;
@@ -72,7 +89,7 @@ line-height: 94px;
   margin-top: 10%;
 }
 .btn{
-   background-color:rgb(37, 37, 37);
+   background-color:black;
 
 }
 #forgot{
@@ -89,11 +106,58 @@ line-height: 94px;
 .btn{
    min-width: 100px;
 }
-#img1{
+.img1{
    height: 50%;
    margin-left: 30%;
    margin-top: 20%;
 }
 #login_button{
     color: white;
+}
+input-field label {
+   color: #000;
+  
+ }
+ .input-field input:focus + label {
+   color: rgb(0, 0, 0) !important;
+ }
+ .input-field input[type=text]:focus,input[type=password]:focus {
+   border-bottom: 1px solid rgb(0, 0, 0) !important;
+   box-shadow: 0 1px 0 0 rgb(0, 0, 0) !important;
+   color: #000;
+  
+ }
+ .input{
+    height: 2rem !important;
+ }
+ 
+ .btn:hover{
+    background-color: rgb(56, 56, 77) !important;
+ }
+ .input-field .prefix{
+  color: rgb(56, 56, 77) !important;
+ }
+ .subhead{
+    margin-top: 10%;
+   font-family: 'Muli',sans-serif;
+   font-weight: 900 !important;
+   margin-left: 20%;
+   font-weight: 800;
+ }
+ .subpoint{
+   font-family: 'Muli',sans-serif;
+  font-size: 120%;
+   margin-left: 20%;
+ }
+.page-footer{
+   background-color: rgb(56, 56, 77) !important;
+   padding: 0.2px;
+   font-family: 'Muli',sans-serif;
+   font-weight: 800;
+}
+
+     
+#heart{
+   font-size: 200%;
+  
 }
