@@ -8,10 +8,10 @@ valid=require('../middleware/check_valid');
 let path=require('path')
 instance_check=require('../middleware/if_logged_in').is_in
 router.get('/',(req,res)=>{
+    console.log("here");
     res.sendfile(path.join(__dirname+'/views/index.html'));
 });
 router.post('/login',valid,async function(req,res){
-    console.log(req);
     username=req.body.username;
     password=req.body.password;
     var quer='select * from users where username=\''+username+'\''+';';
@@ -28,7 +28,7 @@ router.post('/login',valid,async function(req,res){
             if(bcrypt.compareSync(password,result[0]['password']))
             {let payload=JSON.parse('{"user":"'+username+'"}');
             let token=jwt.sign(payload ,SECRET_KEY,{expiresIn: '1d'});
-            res.cookie('token',token,{httpOnly:true});
+            res.cookie('token',token,{httpOnly:true,maxAge: 3600000});
             res.cookie('user',username);
             res.redirect(301,'/rooms');
         }

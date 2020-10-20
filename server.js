@@ -7,7 +7,6 @@ const app=express()
 const http=require('http').Server(app)
 const io=require('socket.io')(http);
 const redis=require('redis');
-let cookie_parser=require('cookie-parser')
 const instance_check=require('./middleware/if_logged_in')
 app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
@@ -37,7 +36,9 @@ io.use(function(socket,next){
     if(instance_check.f(socket.handshake)){
         next();
     }
-    else throw console.error("invalid"); 
+    else {
+        
+    }
   
     }).on('connection',(client)=>{    
     console.log("new client connected");
@@ -56,9 +57,8 @@ io.use(function(socket,next){
     console.log('registered'+room)
     sub.on('message',(channel,message)=>{
         console.log('message recieved on redis instance');
-        //if(message['room_id']==room)
+
         client.emit("data",message);
-        //else console.log("no");
     });
     client.on('message',(message)=>{
         pub.publish(room,message);
