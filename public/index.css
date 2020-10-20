@@ -3,6 +3,7 @@ html {
  }
 #intro_box{
     height: 620px;
+    background-color: #ffe13b;
 }
 #fbox{
    height: 660px;
@@ -18,10 +19,11 @@ html {
    margin-bottom: 50% !important;
    color: white;
 }
-.menu_items{
+.menu_items a{
    margin-right: 20px;
    margin-left: 20px;
    color: black;
+   display: inline-block;
    font-weight: 400;
    font-family: 'Raleway',sans-serif;
 
@@ -31,10 +33,10 @@ html {
    margin-bottom: 4%;
 }
 .nav-wrapper{
-   padding-right: 8%;
+   padding-right: 7%;
 }
 .card-content{
-   padding-right: 20% !important;
+   padding-right: 10% !important;
 
 }
 
@@ -79,9 +81,11 @@ line-height: 94px;
    border-bottom-color: yellow;
 } 
 #login_button{
-  margin-left: 30%;
-  margin-bottom: 24%;
-  margin-top: 10%;
+   display: block;
+  /* margin-left: 30%; */
+  margin: auto;
+  margin-bottom: 20%;
+  margin-top: 14%;
 }
 #register_button{
   margin-left: 30%;
@@ -160,4 +164,13 @@ input-field label {
 #heart{
    font-size: 200%;
   
+}
+.tabs .tab a:hover, .tabs .tab a.active,.tabs .tab a:focus {
+
+   color: black;
+   background-color: transparent;
+
+}
+.tabs .tab a{
+   color: grey;
 }

@@ -6,26 +6,40 @@
     <link href="../public/index.css" rel="stylesheet">
     <style>
         #inputs{
-         
+         margin: 0%;
             padding-top: 10%;
+        
+            height: 100%;
          
             
         }
         .links{
-            margin:10% !important;
-            margin-left: 40% !important;
-            width: 30% !important;
+            margin:5% !important;
+            margin-left: 10% !important;
+            width: 40% !important;
            
         }
+        .links:active,.links:focus{
+            border-bottom-color: black !important;
+        }
         #room-img{
-            margin-left: 20%;
             margin-top: 20%;
         }
+        .card{
+            display: inline-block;
+            padding-top: 20%;
+            border-radius: 4%;
+            padding-bottom: 20%;
+            padding-right: 5%;
         
+        }
+        .row{
+            margin-bottom: 0%;
+        }
     </style>
 </head>
 <body>
-    <nav class="nav-wrapper yellow ">
+    <!-- <nav class="nav-wrapper yellow ">
         <a href="#"class="menu_items"><img height="75px" src="http://localhost:3000/images/logo_transparent.png"></a>
        
         <ul id="nav-mobile" class="right hide-on-mid-and-down ">
@@ -33,23 +47,33 @@
             <li class="menu_items">About us</li>
             <li class="menu_items">Contact us</li>
         </ul>
-    </nav>
+    </nav> -->
 <div class="row">
 
-
-    <div class="col s6">
+<div class="col s7 center">
 <img src="http://localhost:3000/images/undraw_Meeting_re_i53h.svg" class="center" id="room-img" height="45%">
     </div>
-        <div class="col s6" id="inputs">
+        <div class="col s5 center yellow" id="inputs">
+            <div class="card center">
         <form method="POST" action="/join_room">
         <input type="text" name="room_id" id="already_done" class="links"><button class="waves-effect waves-light btn" type="submit">Join!</button>
     </form>
         <input type="text" id="new" class="links"><button  onclick="make_room()" class="waves-effect waves-light btn">new Room!</button>
 
-    </div>
+    </div></div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+
+
+</body>
+<footer class="page-footer">
+    <div class="container">
+        <p class="center">Developed with <span id="heart">❤</span> by sig5</p>
+    
+    </div>
+
+</footer>
 <script>
     function make_room()
     {
@@ -61,6 +85,4 @@
         })
     }
 </script>
-
-</body>
 </html>
