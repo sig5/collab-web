@@ -3,11 +3,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet">
-    <link href="../public/index.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli:wght@1500" />
+    <link href="./index.css" rel="stylesheet">
     <style>
+        #subheading h2{
+        font-family: 'Raleway',sans-serif;
+        font-weight: 600 !important;
+
+    -webkit-text-fill-color: 2f2e41;
+        }
         #inputs{
          margin: 0%;
-            padding-top: 10%;
+      
         
             height: 100%;
          
@@ -36,6 +43,11 @@
         .row{
             margin-bottom: 0%;
         }
+        input {
+            font-family: 'Raleway',sans-serif;
+        font-weight: 600 !important;
+
+        }
     </style>
 </head>
 <body>
@@ -51,14 +63,19 @@
 <div class="row">
 
 <div class="col s7 center">
+  
 <img src="http://localhost:3000/images/undraw_Meeting_re_i53h.svg" class="center" id="room-img" height="45%">
     </div>
+    
         <div class="col s5 center yellow" id="inputs">
+            <div id="subheading">
+                <h2>Ready to<br> Collaborate?</h2>
+            </div>
             <div class="card center">
         <form method="POST" action="/join_room">
         <input type="text" name="room_id" id="already_done" class="links"><button class="waves-effect waves-light btn" type="submit">Join!</button>
     </form>
-        <input type="text" id="new" class="links"><button  onclick="make_room()" class="waves-effect waves-light btn">new Room!</button>
+        <input type="text" id="new" class="links"><button  onclick="make_room()" class="waves-effect waves-light btn" readOnly>new Room!</button>
 
     </div></div>
 </div>

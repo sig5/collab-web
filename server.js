@@ -12,18 +12,17 @@ app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
 app.use(express.static('views'))
-app.use(express.static('./'))
+
 app.use(router);
 app.post('/make_room',instance_check.is_in,(req,res)=>{
     let room=null;
     room=require('crypto').randomBytes(8).toString('hex').slice(0,8);
-    res.cookie('room_id',room);
     return res.status(201).send({room_id:room});
 });
 app.post('/join_room',instance_check.is_in,(req,res)=>{
     console.log("trying to join");
 let room= req.body.room_id;
-res.cookie('room_id',room);
+res.cookie('room_id',room,{expires:new Date(Date.now()+3600000)});
 res.status(301).redirect('/arena');
 });
 const server=http.listen(3000,()=>{
@@ -32,18 +31,20 @@ const server=http.listen(3000,()=>{
 //pub sub;
 let pub=redis.createClient();
 let sub=redis.createClient();
-io.use(function(socket,next){
+io.use(async function(socket,next){
     if(instance_check.f(socket.handshake)){
+        console.log("here");
         next();
     }
     else {
-        
+        console.log("here");
+     
+        next();
     }
   
     }).on('connection',(client)=>{    
     console.log("new client connected");
     let room='abc';
-    console.log(client.handshake.headers);
     cookies=client.handshake.headers.cookie.split(';')
     cookies.forEach(element => {
         let a=element.split('=');

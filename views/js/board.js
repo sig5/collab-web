@@ -18,14 +18,12 @@ let to_size=[];
 let mode=0;
 let is_rect=false,is_circle=false;
 var lastx,lasty;  
-var canvas=document.createElement('canvas');
+var canvas=document.getElementById('canvas');
 canvas.style.padding=0;
 canvas.setAttribute("id","canvas");
 canvas.width=1500;
 canvas.height=800;
 document.getElementById("canvas_space").appendChild(canvas);
-console.log(getCookie('user'));
-
 var context=canvas.getContext('2d');
 context.fillStyle='rgb(0,0,0)';
 context.fillRect(0,0,1500,800);
@@ -63,7 +61,7 @@ canvas.addEventListener("mouseup",(e)=>{
         }
         else if(is_circle)
         {
-          context.beginPath();
+            context.beginPath();
             context.arc((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2,0,2*Math.PI,0);
             context.stroke();
         }
@@ -117,13 +115,14 @@ socket.on("data",(message)=>{
     {
         change_brush_size(JSON.parse(message)['to_size'][0],0);
     }
- 
+    if(JSON.parse(message)['type'].localeCompare('data_stream')==0)
     draw_recieved(message,JSON.parse(message)['user']);
+    else console.log('oops')
 
 });
 function draw_recieved(data,user_id)
 {
-    if(user_id.localeCompare(getCookie("user"))!=0)
+    if(user_id.localeCompare(getCookie('user'))!=0)
    { DATA=JSON.parse(data);
     console.log(data+"recieved");
     DATA=DATA["draw"];

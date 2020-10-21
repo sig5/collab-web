@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli:wght@900" />
-    <link href="../public/index.css" rel="stylesheet">
+    <link href="/index.css" rel="stylesheet">
 
 </head>
 <body>
@@ -16,6 +16,9 @@
             <li class="menu_items"><a href="#introbox">Home</a></li>
             <li class="menu_items"><a href="#whatbox">About us</a></li>
             <li class="menu_items"><a>Contact us</a></li>
+            <li class="menu_items" ><a id="state">USER</a></li>
+            <li class="menu_items" ><a id="logout">Log out</a></li>
+            
         </ul>
     </nav>
 <div class="row yellow" id="intro_box">
@@ -29,7 +32,7 @@
 </div>
 
 <div class="col s3">
-    <div class="card boxauth">
+    <div class="card boxauth" id="authcard">
     <div class="card-tabs">
       <ul class="tabs tabs-fixed-width">
         <li class="tab" id="logintab"><a href="javascript:;"  onclick="logintoggle()" >Login</a></li>
@@ -133,6 +136,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+if(getCookie("user")!="" && getCookie("user")!="dummy")
+{
+   document.getElementById('authcard').style.visibility='hidden';
+   document.getElementById('state').style.display='inline-block';
+   document.getElementById('state').innerHTML=getCookie("user");
+}
+else{
+    document.getElementById('state').style.display='none';
+    document.getElementById('logout').style.display='none';
+}
+    function logout(){
+
+    }
+
     function logintoggle()
     {document.getElementById("logform").classList.toggle("hidetab",false);
     document.getElementById("regform").classList.toggle("hidetab",true);
@@ -141,6 +158,7 @@
     {document.getElementById("regform").classList.toggle("hidetab",false);
     document.getElementById("logform").classList.toggle("hidetab",true);
     };
+
 $(document).ready(function(){
     $("#signup_form").on("submit", function(event){
         event.preventDefault();
@@ -155,7 +173,22 @@ $(document).ready(function(){
         });
     });
 });
-  
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
 </script>
 
 </html>
