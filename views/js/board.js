@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
       hoverEnabled: true
     });
   });
+  
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {});
+  });
+  document.getElementById('user').innerHTML=getCookie('user');
 let socket=io();
 let draw_stream=[];
 let color_pen=[];
@@ -25,9 +32,9 @@ canvas.width=1500;
 canvas.height=800;
 document.getElementById("canvas_space").appendChild(canvas);
 var context=canvas.getContext('2d');
-context.fillStyle='rgb(0,0,0)';
+context.fillStyle='rgb(255,255,255)';
 context.fillRect(0,0,1500,800);
-context.strokeStyle="#ffffff"
+context.strokeStyle="#000000"
 
 let is_mouse_pressed=false;
 canvas.addEventListener("mousedown",(e)=>{
@@ -69,12 +76,22 @@ canvas.addEventListener("mouseup",(e)=>{
        
     } 
     socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
-    draw_stream=[];
+    draw_stream.length=0;0
+    console.log("lok"+draw_stream);
         
  
  
 });
-
+function eraser(size,num){
+    change_brush_size(size,1);
+    context.strokeStyle=context.fillStyle;
+    if(num==1)
+    {
+        color_pen.push(context.strokeStyle);
+        socket.emit('message',JSON.stringify({type:'color_pen',color_pen:color_pen}));
+        color_pen=[];
+    }
+}
 function draw(x,y, drawing){
     if(mode==0)
     {if(drawing)
@@ -90,10 +107,11 @@ function draw(x,y, drawing){
 lastx=x,lasty=y;}
 }
 socket.on("data",(message)=>{
-    console.log("recieving...");
+    console.log("recieving..."+message);
     if(JSON.parse(message)['type'].localeCompare('color_pen')==0)
     {
-        change_color(JSON.parse(message)[0]['color_pen'],0);
+        console.log(JSON.parse(message));
+        change_color(JSON.parse(message)['color_pen'][0],0);
     }
     if(JSON.parse(message)['type'].localeCompare('to_pen')==0)
     {
@@ -118,6 +136,10 @@ socket.on("data",(message)=>{
     if(JSON.parse(message)['type'].localeCompare('data_stream')==0)
     draw_recieved(message,JSON.parse(message)['user']);
     else console.log('oops')
+    if(JSON.parse(message)['type'].localeCompare('chat')==0)
+    {
+        showchat(JSON.parse(message)['message'],JSON.parse(message)['user']);
+    }
 
 });
 function draw_recieved(data,user_id)
@@ -131,6 +153,7 @@ function draw_recieved(data,user_id)
     {lastx=DATA[i]['lastx'],lasty=DATA[i]['lasty'];
     draw(DATA[i]['x'],DATA[i]['y'],true);}
    }
+   draw_stream=[];
 }
 function save_image()
 {
@@ -213,4 +236,17 @@ function getCookie(cname) {
       }
     }
     return "";
+  }
+  function showchat(message,user)
+  {
+      var chat=document.createElement('div');
+      chat.setAttribute('class','chat-item card');
+      //chat.setAttribute('class','card');
+      chat.innerHTML=user+': '+message;
+      document.getElementById('chatbox').appendChild(chat);
+}
+  function sendchat()
+  { message=document.getElementById('sendput').value;
+    socket.emit('message',JSON.stringify({type:'chat',message:message,user:getCookie('user')}));
+    document.getElementById('sendput').value=""
   }
