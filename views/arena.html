@@ -8,6 +8,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet"> 
 </head>
 <style>
+  #eraser{
+    margin-right:40% ;
+  }
+  .sidenav{
+    padding:1%;
+  }
+  ul:not(.browser-default) {
+    padding-left: 1%;
+    list-style-type: none;
+}
+  #chatsec{
+    width:auto;
+    height: 30%;
+
+ 
+  }
+  #sending{
+   
+    display: inline-block;
+    
+  }
+  #sendput{
+    width: 60%;
+  }
+  .chat-item{
+    background-color: white;
+    padding:5% !important;
+    margin:1%;
+
+  }
+  #chatbox{
+    background-color: rgb(56, 56, 77);
+    padding:1%;
+    height:100%;
+    width: auto;
+    overflow-y: scroll;
+  }
+  #ac{
+    margin-bottom: 35%;
+  }
 .row .col{
     padding:0px;
     width: 100%;
@@ -36,35 +76,57 @@ i {
   color: black;
 
 }
+.colorpurple{
+  background-color: rgb(56, 56, 77)
+}
+.nav{
+  display: inline-block !important;
+}
 </style>
 <body>
-   <!-- <nav class="nav-wrapper yellow">
-       <ul class="center">logo</ul>
 
-   </nav> -->
+ 
+  <ul id="slide-out" class="sidenav">
+    <li>
+      <div id="user">
+      </div>
+    </li>
+  <li>Group Chat</li>
+    <li>
+    <div id="chatsec" >
 
+
+  <div id="chatbox"> </div>
+  <div id="sending">
+  <input type="text" id="sendput">
+  <button class="waves-effect btn" onclick="sendchat()">Send</button> 
+    </div>
+</div>
+  </li>  </ul>
+ 
+        
  
        <div class=" center" id="canvas_space">
          <canvas id="canvas"></canvas>
  
     </div>
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large yellow">
+        <a class="btn-floating btn-large colorpurple">
           <i class="large material-icons">mode_edit</i>
         </a>
         <ul>
-          <li id="red_pen"><a class="btn-floating red" onclick="change_color('red')" ></a></li>
-          <li><a class="btn-floating yellow darken-1" onclick="change_color('yellow')"></a></li>
-          <li><a class="btn-floating green" onclick="change_color('green')"></a></li>
-          <li><a class="btn-floating blue" onclick="change_color('blue')"></a></li>
-          <li><a class="btn-floating white" onclick="change_color('white')"></a></li>
+          <li id="red_pen"><a class="btn-floating red" onclick="change_color('red',1)" ></a></li>
+          <li><a class="btn-floating colorpurple darken-1" onclick="change_color('colorpurple',1)"></a></li>
+          <li><a class="btn-floating green" onclick="change_color('green',1)"></a></li>
+          <li><a class="btn-floating blue" onclick="change_color('blue',1)"></a></li>
+          <li><a class="btn-floating white" onclick="change_color('white',1)"></a></li>
          </ul>
       </div>
        
    </div>
    <div class="fixed-action-btn" id="screen">
-    <a class="btn-floating btn-large yellow">
-      <i class="large material-icons">filter_frames</i>
+    <a class="btn-floating btn-large colorpurple">
+      <i class="large material-icons">developer_board</i>
     </a>
     <ul>
       <li id="red_pen"><a class="btn-floating red" onclick="change_board_color('red',1)" ></a></li>
@@ -76,36 +138,61 @@ i {
      </ul>
   </div>
   <div class="fixed-action-btn" id="brush_size">
-    <a class="btn-floating btn-large yellow">
-      <i class="large material-icons">filter_frames</i>
+    <a class="btn-floating btn-large colorpurple">
+      <i class="large material-icons">line_weight</i>
     </a>
     <ul>
-      <li id="red_pen"><a class="btn-floating yellow" onclick="change_brush_size(1,1)" >1 px</a></li>
-      <li><a class="btn-floating yellow darken-1" onclick="change_brush_size(2,1)">2 px</a></li>
-      <li><a class="btn-floating yellow" onclick="change_brush_size(3,1)">3 px</a></li>
-      <li><a class="btn-floating yellow" onclick="change_brush_size(4,1)">4px</a></li>
-      <li><a class="btn-floating yellow" onclick="change_brush_size(5,1)">5 px</a></li>
-      <li><a class="btn-floating yellow" onclick="change_brush_size(6,1)">6px</a></li>
+      <li id="red_pen"><a class="btn-floating colorpurple center" onclick="change_brush_size(1,1)" >1 px</a></li>
+      <li><a class="btn-floating colorpurple darken-1 center" onclick="change_brush_size(2,1)">2 px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="change_brush_size(3,1)">3 px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="change_brush_size(4,1)">4px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="change_brush_size(5,1)">5 px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="change_brush_size(6,1)">6px</a></li>
+     </ul>
+  </div>
+  <div class="fixed-action-btn" id="eraser">
+    <a class="btn-floating btn-large colorpurple">
+      <i class="large material-icons">line_weight</i>
+    </a>
+    <ul>
+      <li id="red_pen"><a class="btn-floating colorpurple center" onclick="eraser(1,1)" >1 px</a></li>
+      <li><a class="btn-floating colorpurple darken-1 center" onclick="eraser(2,1)">2 px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="eraser(3,1)">3 px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="eraser(4,1)">4px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="eraser(5,1)">5 px</a></li>
+      <li><a class="btn-floating colorpurple center" onclick="eraser(6,1)">6px</a></li>
      </ul>
   </div>
   <div class="fixed-action-btn" id="save">
-    <a class="btn-floating btn-large yellow" id="saver" onclick="save_image()">
-      <i class="large material-icons">filter_frames</i>
+    <a class="btn-floating btn-large colorpurple" id="saver" onclick="save_image()">
+      <i class="large material-icons">save_alt</i>
     </a>
    
   </div>
 
   <div class="fixed-action-btn" id="brush_shape">
-    <a class="btn-floating btn-large yellow">
-      <i class="large material-icons">filter_frames</i>
+    <a class="btn-floating btn-large colorpurple">
+      <i class="large material-icons">format_shapes</i>
     </a>
     <ul>
-      <li id="red_pen"><a class="btn-floating yellow" onclick="change_to_rect(1)" >rec</a></li>
-      <li><a class="btn-floating yellow darken-1" onclick="change_to_circle(1)">circle</a></li>
-      <li><a class="btn-floating yellow" onclick="change_to_pen(1)">pen</a></li>
+      <li id="red_pen"><a class="btn-floating colorpurple" onclick="change_to_rect(1)" ><i class="large material-icons">crop_16_9</i></a></li>
+      <li><a class="btn-floating colorpurple darken-1" onclick="change_to_circle(1)"><i class="large material-icons">radio_button_unchecked</i></a></li>
+      <li><a class="btn-floating colorpurple" onclick="change_to_pen(1)"><i class="large material-icons">mode_edit</i></a></li>
      </ul>
   </div>
+  <div class="fixed-action-btn" id="ac">
+  
+      <a href="#" data-target="slide-out" class="sidenav-trigger btn-floating btn-large colorpurple"><i class="material-icons">person_pin</i></a>
+       
+  
    
+  </div>
+ 
+  
+   
+ 
+</div>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

@@ -98,5 +98,9 @@ router.get('/rooms',instance_check,(req,res)=>{
 router.get('/arena',instance_check,(req,res)=>{
     res.sendFile(path.join(__dirname,'../views/arena.html'));
 });
-
+router.get('/logout',(req,res)=>{
+    res.cookie('user','',{maxAge:-1});
+    res.cookie('token','',{maxAge:-1});
+    res.status(301).redirect('/');
+})
 module.exports=router
