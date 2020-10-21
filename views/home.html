@@ -1,0 +1,194 @@
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli:wght@900" />
+    <link href="/index.css" rel="stylesheet">
+
+</head>
+<body>
+    <nav class="nav-wrapper yellow ">
+        <a href="#"class="menu_items"><img height="100px" src="http://localhost:3000/images/logo_transparent.png"><span id="logotext" class="menu-items">Corral</span></a>
+        <ul id="nav-mobile" class="right hide-on-mid-and-down ">
+            <li class="menu_items"><a href="#introbox">Home</a></li>
+            <li class="menu_items"><a href="#whatbox">About us</a></li>
+            <li class="menu_items"><a>Contact us</a></li>
+            <li class="menu_items" ><a id="state">USER</a></li>
+            <li class="menu_items" ><a id="logout">Log out</a></li>
+            
+        </ul>
+    </nav>
+<div class="row yellow" id="intro_box">
+<div class="leftbox col s5 ">
+    <span id="lets">Let's</span><br>
+     <span id="collaborate">Collaborate</span><br>
+    
+</div>
+<div class="col s3">
+    <img src="http://localhost:3000/images/undraw_real_time_collaboration_c62i.svg " id="main_ill">
+</div>
+
+<div class="col s3">
+    <div class="card boxauth" id="authcard">
+    <div class="card-tabs">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab" id="logintab"><a href="javascript:;"  onclick="logintoggle()" >Login</a></li>
+        <li class="tab" id="registertab"><a href="javascript:;"  onclick="registertoggle()" >Register</a></li>
+      </ul>
+    </div>
+    <div class="card-content " id="logform">
+        <div class="">
+        <form action="/login" method="POST" id="login_form">
+
+          <div class="input-field">
+            <i class="tiny material-icons prefix">account_circle</i>
+            <input id="username" type="text" class="validate"  name="username">
+            <label for="username">Username</label>
+            
+        </div>
+        <div class="input-field">
+            <i class="tiny material-icons prefix">lock_open</i>
+            <input id="password" type="password" class="validate" label="password" name="password">
+            <label for="password">Password</label>            
+        </div>
+        <button class="waves-effect waves-light btn " id="login_button" type="submit">Login</button><br>
+     
+    </form>
+        </div>
+        
+    </div>
+    <div class="card-content hidetab" id="regform">
+        <form action="/signup" method="POST" id="signup_form">
+        <div class="">
+
+            
+          <div class="input-field">
+            <i class="tiny material-icons prefix">account_circle</i>
+            <input id="username_r" type="text" class="validate" label="username" name="username">
+            <label for="username_r">Username</label>
+            
+        </div>
+        <div class="input-field">
+            <i class="tiny material-icons prefix">lock_open</i>
+            <input id="password_r" type="password" class="validate" label="password" name="password">
+            <label for="password_r">Password</label>            
+        </div>
+        <div class="input-field">
+            <i class="tiny material-icons prefix">mail_outline</i>
+            <input id="email" type="text" class="validate" label="E-mail" name="email">
+            <label for="email">E-mail</label>            
+        </div>
+        <button class="waves-effect waves-light btn " id="register_button" type="submit">Register</button><br>
+        <a id="already" onclick="logintoggle()">Already Registered?</a>
+    </form>
+
+        </div>
+        
+    </div>
+  </div>
+</div>
+<div class="col s1">
+</div>
+ </div>
+ <div class="row" id="whatbox">
+     <div class="col s4">
+        <img src="images/undraw_online_reading_np7n.svg" class="img1">
+     </div>
+     <div class="col s8">
+        <h1 class=" subhead" >What we do?</h1>
+        <ul class="subpoint">
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </li><br> 
+            <li>ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</li><br>
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </li><br> 
+            <li>ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</li><br>
+        </ul>
+     </div>
+
+    </div>
+ </div>
+ <div class="row yellow" id="fbox">
+
+<div class="col s4">
+    <img src="images/undraw_Scrum_board_re_wk7v (1).svg" class="img1"></div>
+    <div class="col s8">
+        <h1 class="subhead" id="feat">Features</h1>
+        <ul class="subpoint">
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </li><br> 
+            <li>ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</li><br>
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </li><br> 
+            <li>ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</li><br>
+        </ul>
+     </div>
+
+</div>
+
+</body>
+<footer class="page-footer">
+    <div class="container">
+        <p class="center">Developed with <span id="heart">❤</span> by sig5</p>
+    
+    </div>
+
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+if(getCookie("user")!="" && getCookie("user")!="dummy")
+{
+   document.getElementById('authcard').style.visibility='hidden';
+   document.getElementById('state').style.display='inline-block';
+   document.getElementById('state').innerHTML=getCookie("user");
+}
+else{
+    document.getElementById('state').style.display='none';
+    document.getElementById('logout').style.display='none';
+}
+    function logout(){
+
+    }
+
+    function logintoggle()
+    {document.getElementById("logform").classList.toggle("hidetab",false);
+    document.getElementById("regform").classList.toggle("hidetab",true);
+    }
+    function registertoggle()
+    {document.getElementById("regform").classList.toggle("hidetab",false);
+    document.getElementById("logform").classList.toggle("hidetab",true);
+    };
+
+$(document).ready(function(){
+    $("#signup_form").on("submit", function(event){
+        event.preventDefault();
+ 
+        var formValues= $(this).serialize();
+ 
+        $.post("/signup", formValues, function(data){
+           alert(data['msg']);
+            $("#result").html(data);
+        }).fail(function(data){
+            alert("error");
+        });
+    });
+});
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+</script>
+
+</html>

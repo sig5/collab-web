@@ -7,11 +7,33 @@ db=require('./db_connect.js')
 valid=require('../middleware/check_valid');
 let path=require('path')
 instance_check=require('../middleware/if_logged_in').is_in
-router.get('/',(req,res)=>{
-    res.sendfile(path.join(__dirname+'/views/index.html'));
+router.get('/',(req,res,next)=>{
+    try{
+        const data =req.headers.cookie.split(';');
+        console.log(data);
+        let parsed={}
+        data.forEach(element => {
+            element_p=element.split('=')
+            parsed[element_p[0].trim()]=element_p[1];
+        });
+  
+        let token=parsed["token"];
+        console.log(token);
+        const decoded=jwt.verify(token,'AVISHKAR');
+        req.userData=decoded;
+        next();
+    }
+    catch(err){
+        console.log("error in session")
+      res.cookie('token','dummy',{httpOnly:true,expires:new Date(Date.now()-10)});
+      res.cookie('user','dummy',{httpOnly:true,expires:new Date(Date.now()-10)});
+      next();
+    }
+
+},(req,res)=>{
+    res.sendfile(path.normalize((__dirname+'/../views/home.html')));
 });
 router.post('/login',valid,async function(req,res){
-    console.log(req);
     username=req.body.username;
     password=req.body.password;
     var quer='select * from users where username=\''+username+'\''+';';
@@ -28,8 +50,8 @@ router.post('/login',valid,async function(req,res){
             if(bcrypt.compareSync(password,result[0]['password']))
             {let payload=JSON.parse('{"user":"'+username+'"}');
             let token=jwt.sign(payload ,SECRET_KEY,{expiresIn: '1d'});
-            res.cookie('token',token,{httpOnly:true});
-            res.cookie('user',username);
+            res.cookie('token',token,{httpOnly:true,maxAge: 3600000});
+            res.cookie('user',username,{maxAge: 3600000,httpOnly:false});
             res.redirect(301,'/rooms');
         }
             else{

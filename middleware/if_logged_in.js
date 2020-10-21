@@ -18,6 +18,7 @@ module.exports={
     catch(err){
         console.log(err);
         console.log("invalid session");
+        res.status(301).redirect('/');
     }
 },
 f:function f(req)
@@ -37,10 +38,10 @@ f:function f(req)
         req.userData=decoded;
         return true;
     }
-    catch(err){
-        return false;
-        console.log(err);
+    catch(err){        console.log(err);
         console.log("invalid session");
+        return false;
+
     }
     
 }}
