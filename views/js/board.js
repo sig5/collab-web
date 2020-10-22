@@ -2,7 +2,7 @@
 //mode==0-> free draw
 //mode==1 ->rectangle/shape?
 //mode==2 -> text
-//shapes transmit ni hoing
+//mode==3 ->image
 
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
@@ -86,7 +86,7 @@ canvas.addEventListener("mouseup",(e)=>{
             let y1=e.pageY-canvas.offsetTop;
             let y2=lasty;
             textwriter(x1,x2,y1,y2);
-            socket.emit('message',JSON.stringify({type:'text_stream',draw:[x1,x2,y1,y2],user:getCookie('user')}));
+            socket.emit('message',JSON.stringify({type:'text_stream',draw:[x1,x2,y1,y2,writetext],user:getCookie('user')}));
   
            
         }
@@ -179,6 +179,7 @@ socket.on("data",(message)=>{
     if(JSON.parse(message)['type'].localeCompare('text_stream')==0)
     {
         let dummy=JSON.parse(message)['draw']
+        writetext=dummy[4];
         textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);
     }
 });
@@ -310,18 +311,17 @@ function settext(num)
     mode=2;
     if(num==0)
     {
-        socket.emit('message',JSON.stringify({type:'totext',message:message,user:getCookie('user')}));
+        socket.emit('message',JSON.stringify({type:'totext',user:getCookie('user')}));
     }
 }
 function updatetext()
 {
     writetext=document.getElementById('drawtext').value;
-    console.log(writetext);
  
 }
-function addimage()
+function addimage(x1,x2,y1,y2,imgObj)
 {
-
+    context.drawImage(img,min(x1,x2),max(y1,y2),Math.abs(x2-x1),Math.min(y2-y1));
 }
 function makerectangle(x1,y1,w,h)
 {
@@ -332,4 +332,8 @@ function makecircle(x1,y1,r)
     context.beginPath();
     context.arc(x1,y1,r,0,2*Math.PI,0);
     context.stroke();
+}
+function cache_on_server()
+{
+
 }
