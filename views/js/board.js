@@ -128,6 +128,15 @@ function draw(x,y, drawing){
  
 lastx=x,lasty=y;}
 }
+socket.on('cache',(data)=>{
+    alert("data has appeared"+data);
+    var img = new Image;
+img.onload = function(){
+  context.drawImage(img,0,0);
+};
+img.src = data;
+
+})
 socket.on("data",(message)=>{
     console.log("recieving..."+message);
     if(JSON.parse(message)['type'].localeCompare('color_pen')==0)
@@ -333,7 +342,9 @@ function makecircle(x1,y1,r)
     context.arc(x1,y1,r,0,2*Math.PI,0);
     context.stroke();
 }
-function cache_on_server()
-{
-
-}
+setInterval(async() => {
+let imgData=canvas.toDataURL('image/jpeg',.60); 
+socket.emit('cache',imgData);
+console.log('sent');
+    
+},10000);

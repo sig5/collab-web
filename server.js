@@ -56,7 +56,7 @@ io.use(async function(socket,next){
         client.off('message',x);
     });
     console.log("new client connected");
- 
+
     cookies=client.handshake.headers.cookie.split(';')
     cookies.forEach(element => {
         let a=element.split('=');
@@ -69,6 +69,13 @@ io.use(async function(socket,next){
         
     });
     sub.subscribe(room);
+    let key;
+    pub.get(room,(err,res)=>{
+        if(res)
+        console.log(res.substr(0,10))
+        key=res;  client.emit('cache',key);
+    })
+  
     console.log('registered'+room)
     sub.on('message',(channel,message)=>{
         client.emit("data",message);
@@ -78,6 +85,10 @@ io.use(async function(socket,next){
     {client.on('message',x);
     
 }
+client.on('cache',(data)=>{
+console.log("recieved cache")
+    pub.set(room,data);
+})
     
 });
 function x(message){
