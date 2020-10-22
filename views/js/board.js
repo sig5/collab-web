@@ -70,21 +70,25 @@ canvas.addEventListener("mouseup",(e)=>{
     {
         if(mode==1 && is_rect)
         {
-            context.strokeRect(lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop);
+
+            makerectangle(lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop);
+            socket.emit('message',JSON.stringify({type:'rect_stream',draw:[lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop],user:getCookie('user')}));
         }
         else if(mode==1 && is_circle)
         {
-            context.beginPath();
-            context.arc((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2,0,2*Math.PI,0);
-            context.stroke();
+            makecircle((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2);
+            socket.emit('message',JSON.stringify({type:'circle_stream',draw:[(lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2],user:getCookie('user')}));
+  
         }
         else 
-        {
+        {let x1=e.pageX-canvas.offsetLeft;
+            let x2=lastx;
+            let y1=e.pageY-canvas.offsetTop;
+            let y2=lasty;
+            textwriter(x1,x2,y1,y2);
+            socket.emit('message',JSON.stringify({type:'text_stream',draw:[x1,x2,y1,y2],user:getCookie('user')}));
+  
            
-            var fontArgs = context.font.split(' ');
-            var newSize =Math.min(Math.abs(e.pageX-canvas.offsetLeft-lastx),Math.abs(e.pageY-canvas.offsetTop-lasty))+'px';
-            context.font = newSize + ' ' + fontArgs[fontArgs.length - 1];
-            addtext(writetext,Math.min(lastx,e.pageX-canvas.offsetLeft),Math.max(lasty,e.pageY-canvas.offsetTop));
         }
 
         lastx=e.pageX-canvas.offsetLeft;lasty=e.pageY-canvas.offsetTop;
@@ -139,7 +143,7 @@ socket.on("data",(message)=>{
     {
         change_to_rect(0);
     }
-    if(JSON.parse(message)['type'].localeCompare('to_circ')==0)
+    if(JSON.parse(message)['type'].localeCompare('to_circle')==0)
     {
         change_to_circle(0);
     }
@@ -158,7 +162,25 @@ socket.on("data",(message)=>{
     {
         showchat(JSON.parse(message)['message'],JSON.parse(message)['user']);
     }
-
+    if(JSON.parse(message)['type'].localeCompare('totext')==0)
+    {
+        settext(1);
+    }
+    if(JSON.parse(message)['type'].localeCompare('rect_stream')==0)
+    {
+        let dummy=JSON.parse(message)['draw']
+        makerectangle(dummy[0],dummy[1],dummy[2],dummy[3]);
+    }
+    if(JSON.parse(message)['type'].localeCompare('circle_stream')==0)
+    {
+        let dummy=JSON.parse(message)['draw']
+        makecircle(dummy[0],dummy[1],dummy[2]);
+    }
+    if(JSON.parse(message)['type'].localeCompare('text_stream')==0)
+    {
+        let dummy=JSON.parse(message)['draw']
+        textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);
+    }
 });
 function draw_recieved(data,user_id)
 {
@@ -268,6 +290,14 @@ function getCookie(cname) {
     socket.emit('message',JSON.stringify({type:'chat',message:message,user:getCookie('user')}));
     document.getElementById('sendput').value=""
   }
+function textwriter(x1,x2,y1,y2)
+{
+    var fontArgs = context.font.split(' ');
+    var newSize =Math.min(Math.abs(x1-x2),Math.abs(y1-y2))+'px';
+    context.font = newSize + ' ' + fontArgs[fontArgs.length - 1];
+    addtext(writetext,Math.min(x1,x2),Math.max(y1,y2));
+    
+}
 function addtext(text,x,y)
 {
     let colortemp=context.fillStyle;
@@ -275,9 +305,13 @@ function addtext(text,x,y)
     context.fillText(text,x,y);
     context.fillStyle=colortemp;
 }
-function settext()
+function settext(num)
 {
     mode=2;
+    if(num==0)
+    {
+        socket.emit('message',JSON.stringify({type:'totext',message:message,user:getCookie('user')}));
+    }
 }
 function updatetext()
 {
@@ -288,4 +322,14 @@ function updatetext()
 function addimage()
 {
 
+}
+function makerectangle(x1,y1,w,h)
+{
+    context.strokeRect(x1,y1,w,h);
+}
+function makecircle(x1,y1,r)
+{
+    context.beginPath();
+    context.arc(x1,y1,r,0,2*Math.PI,0);
+    context.stroke();
 }

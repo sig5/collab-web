@@ -12,7 +12,9 @@ const instance_check=require('./middleware/if_logged_in')
 app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
-app.use(express.static('views'))
+app.use(express.static('views/images'))
+app.use(express.static('views/js'))
+app.use(express.static('views/css'))
 app.use(router);
 
 app.post('/make_room',instance_check.is_in,(req,res)=>{
