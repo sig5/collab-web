@@ -1,6 +1,7 @@
 
 //mode==0-> free draw
 //mode==1 ->rectangle/shape?
+//mode==2 -> text
 //shapes transmit ni hoing
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, {});
+  });
 
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
@@ -23,6 +28,7 @@ let color_pen=[];
 let to_board=[];
 let to_size=[];
 let mode=0;
+var writetext="dummy";
 let is_rect=false,is_circle=false;
 var lastx,lasty;  
 var canvas=document.getElementById('canvas');
@@ -35,11 +41,11 @@ var context=canvas.getContext('2d');
 context.fillStyle='rgb(255,255,255)';
 context.fillRect(0,0,1500,800);
 context.strokeStyle="#000000"
-
+context.font='50px serif';
 let is_mouse_pressed=false;
 canvas.addEventListener("mousedown",(e)=>{
     is_mouse_pressed=true;
-    if(mode==1)
+    if(mode==1 || mode==2)
     {
         lastx=e.pageX-canvas.offsetLeft;
         lasty=e.pageY-canvas.offsetTop;
@@ -60,23 +66,35 @@ canvas.addEventListener("mousemove",(e)=>{
 canvas.addEventListener("mouseup",(e)=>{
     
     is_mouse_pressed=false;
-    if(mode==1)
+    if(mode==1 || mode==2)
     {
-        if(is_rect)
+        if(mode==1 && is_rect)
         {
             context.strokeRect(lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop);
         }
-        else if(is_circle)
+        else if(mode==1 && is_circle)
         {
             context.beginPath();
             context.arc((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2,0,2*Math.PI,0);
             context.stroke();
         }
+        else 
+        {
+           
+            var fontArgs = context.font.split(' ');
+            var newSize =Math.min(Math.abs(e.pageX-canvas.offsetLeft-lastx),Math.abs(e.pageY-canvas.offsetTop-lasty))+'px';
+            context.font = newSize + ' ' + fontArgs[fontArgs.length - 1];
+            addtext(writetext,Math.min(lastx,e.pageX-canvas.offsetLeft),Math.max(lasty,e.pageY-canvas.offsetTop));
+        }
+
         lastx=e.pageX-canvas.offsetLeft;lasty=e.pageY-canvas.offsetTop;
        
-    } 
+    }
+    // if(mode==2){
+    //     console.log(writetext);
+    // addtext(writetext,e.pageX-canvas.offsetLeft,e.pageY-canvas.offsetTop); }
     socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
-    draw_stream.length=0;0
+    draw_stream.length=0;
     console.log("lok"+draw_stream);
         
  
@@ -250,3 +268,24 @@ function getCookie(cname) {
     socket.emit('message',JSON.stringify({type:'chat',message:message,user:getCookie('user')}));
     document.getElementById('sendput').value=""
   }
+function addtext(text,x,y)
+{
+    let colortemp=context.fillStyle;
+    context.fillStyle=context.strokeStyle;
+    context.fillText(text,x,y);
+    context.fillStyle=colortemp;
+}
+function settext()
+{
+    mode=2;
+}
+function updatetext()
+{
+    writetext=document.getElementById('drawtext').value;
+    console.log(writetext);
+ 
+}
+function addimage()
+{
+
+}

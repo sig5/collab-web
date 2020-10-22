@@ -9,7 +9,7 @@
 </head>
 <style>
   #eraser{
-    margin-right:40% ;
+    margin-bottom:35% ;
   }
   .sidenav{
     padding:1%;
@@ -46,7 +46,7 @@
     overflow-y: scroll;
   }
   #ac{
-    margin-bottom: 35%;
+    margin-right: 90%;
   }
 .row .col{
     padding:0px;
@@ -85,13 +85,14 @@ i {
 </style>
 <body>
 
- 
+
   <ul id="slide-out" class="sidenav">
     <li>
       <div id="user">
       </div>
     </li>
-  <li>Group Chat</li>
+    <li ><a id="logout" href="/logout">Log out</a></li>
+  <li><a>Group Chat</a></li>
     <li>
     <div id="chatsec" >
 
@@ -99,14 +100,29 @@ i {
   <div id="chatbox"> </div>
   <div id="sending">
   <input type="text" id="sendput">
-  <button class="waves-effect btn" onclick="sendchat()">Send</button> 
+  <button class="waves-effect btn colorpurple" onclick="sendchat()">Send</button> 
     </div>
 </div>
-  </li>  </ul>
+  </li>
+  <br>
+
+</ul>
  
-        
+
+
  
        <div class=" center" id="canvas_space">
+        <div id="modal1" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+            <input type="text" id="drawtext">
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class=" waves-effect waves-green btn-flat" onclick="updatetext()">Draw on click</a>
+            <a href="#" class="modal-close">close</a>
+          </div>
+        </div>
          <canvas id="canvas"></canvas>
  
     </div>
@@ -116,10 +132,11 @@ i {
         </a>
         <ul>
           <li id="red_pen"><a class="btn-floating red" onclick="change_color('red',1)" ></a></li>
-          <li><a class="btn-floating colorpurple darken-1" onclick="change_color('colorpurple',1)"></a></li>
+          <li><a class="btn-floating yellow darken-1" onclick="change_color('yellow',1)"></a></li>
           <li><a class="btn-floating green" onclick="change_color('green',1)"></a></li>
           <li><a class="btn-floating blue" onclick="change_color('blue',1)"></a></li>
           <li><a class="btn-floating white" onclick="change_color('white',1)"></a></li>
+          <li><a class="btn-floating black" onclick="change_color('black',1)"></a></li>
          </ul>
       </div>
        
@@ -152,7 +169,7 @@ i {
   </div>
   <div class="fixed-action-btn" id="eraser">
     <a class="btn-floating btn-large colorpurple">
-      <i class="large material-icons">line_weight</i>
+      <i class="large material-icons">backspace</i>
     </a>
     <ul>
       <li id="red_pen"><a class="btn-floating colorpurple center" onclick="eraser(1,1)" >1 px</a></li>
@@ -178,14 +195,12 @@ i {
       <li id="red_pen"><a class="btn-floating colorpurple" onclick="change_to_rect(1)" ><i class="large material-icons">crop_16_9</i></a></li>
       <li><a class="btn-floating colorpurple darken-1" onclick="change_to_circle(1)"><i class="large material-icons">radio_button_unchecked</i></a></li>
       <li><a class="btn-floating colorpurple" onclick="change_to_pen(1)"><i class="large material-icons">mode_edit</i></a></li>
-     </ul>
+     <li><a class="btn-floating colorpurple modal-trigger" href="#modal1"  onclick="settext()"><i class="large material-icons">text_format</i></a></li>
+    </ul>
   </div>
   <div class="fixed-action-btn" id="ac">
   
-      <a href="#" data-target="slide-out" class="sidenav-trigger btn-floating btn-large colorpurple"><i class="material-icons">person_pin</i></a>
-       
-  
-   
+      <a href="#" data-target="slide-out" class="sidenav-trigger btn-floating btn-large colorpurple"><i class="material-icons">chat</i></a>
   </div>
  
   

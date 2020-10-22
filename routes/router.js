@@ -31,7 +31,7 @@ router.get('/',(req,res,next)=>{
     }
 
 },(req,res)=>{
-    res.sendfile(path.normalize((__dirname+'/../views/home.html')));
+    res.sendFile(path.normalize((__dirname+'/../views/home.html')));
 });
 router.post('/login',valid,async function(req,res){
     username=req.body.username;
