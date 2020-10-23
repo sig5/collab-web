@@ -94,12 +94,10 @@ canvas.addEventListener("mouseup",(e)=>{
         lastx=e.pageX-canvas.offsetLeft;lasty=e.pageY-canvas.offsetTop;
        
     }
-    // if(mode==2){
-    //     console.log(writetext);
-    // addtext(writetext,e.pageX-canvas.offsetLeft,e.pageY-canvas.offsetTop); }
-    socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
-    draw_stream.length=0;
-    console.log("lok"+draw_stream);
+    if(mode==0)
+    {socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
+    draw_stream.length=0;}
+    // console.log("lok"+draw_stream);
         
  
  
@@ -178,18 +176,21 @@ socket.on("data",(message)=>{
     if(JSON.parse(message)['type'].localeCompare('rect_stream')==0)
     {
         let dummy=JSON.parse(message)['draw']
+        if(dummy.length==4)
         makerectangle(dummy[0],dummy[1],dummy[2],dummy[3]);
     }
     if(JSON.parse(message)['type'].localeCompare('circle_stream')==0)
     {
         let dummy=JSON.parse(message)['draw']
+        if(dummy.length==3)
         makecircle(dummy[0],dummy[1],dummy[2]);
     }
     if(JSON.parse(message)['type'].localeCompare('text_stream')==0)
     {
         let dummy=JSON.parse(message)['draw']
-        writetext=dummy[4];
-        textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);
+        if(dummy.length==5)
+        {writetext=dummy[4];
+        textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);}
     }
 });
 function draw_recieved(data,user_id)
@@ -203,7 +204,7 @@ function draw_recieved(data,user_id)
     {lastx=DATA[i]['lastx'],lasty=DATA[i]['lasty'];
     draw(DATA[i]['x'],DATA[i]['y'],true);}
    }
-   draw_stream=[];
+   draw_stream.length=0;
 }
 function save_image()
 {

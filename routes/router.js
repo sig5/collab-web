@@ -52,6 +52,7 @@ router.post('/login',valid,async function(req,res){
             let token=jwt.sign(payload ,SECRET_KEY,{expiresIn: '1d'});
             res.cookie('token',token,{httpOnly:true,maxAge: 3600000});
             res.cookie('user',username,{maxAge: 3600000,httpOnly:false});
+            
             res.redirect(301,'/rooms');
         }
             else{

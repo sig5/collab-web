@@ -23,11 +23,15 @@ app.post('/make_room',instance_check.is_in,(req,res)=>{
     return res.status(201).send({room_id:room});
 });
 
-app.post('/join_room',instance_check.is_in,(req,res)=>{
+app.get('/join_room',instance_check.is_in,(req,res)=>{
     console.log("trying to join");
-let room= req.body.room_id;
-res.cookie('room_id',room,{expires:new Date(Date.now()+3600000)});
-res.status(301).redirect('/arena');
+let room= req.query.room_id;
+if(room)
+{res.cookie('room_id',room,{expires:new Date(Date.now()+3600000)});
+res.status(301).redirect('/arena');}
+else{
+    res.status(301).redirect('/');
+}
 });
 const server=http.listen(3004,()=>{
     console.log("server up on port 3004")
