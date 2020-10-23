@@ -12,7 +12,9 @@ const instance_check=require('./middleware/if_logged_in')
 app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
-app.use(express.static('views'))
+app.use(express.static('views/images'))
+app.use(express.static('views/js'))
+app.use(express.static('views/css'))
 app.use(router);
 
 app.post('/make_room',instance_check.is_in,(req,res)=>{
@@ -21,11 +23,15 @@ app.post('/make_room',instance_check.is_in,(req,res)=>{
     return res.status(201).send({room_id:room});
 });
 
-app.post('/join_room',instance_check.is_in,(req,res)=>{
+app.get('/join_room',instance_check.is_in,(req,res)=>{
     console.log("trying to join");
-let room= req.body.room_id;
-res.cookie('room_id',room,{expires:new Date(Date.now()+3600000)});
-res.status(301).redirect('/arena');
+let room= req.query.room_id;
+if(room)
+{res.cookie('room_id',room,{expires:new Date(Date.now()+3600000)});
+res.status(301).redirect('/arena');}
+else{
+    res.status(301).redirect('/');
+}
 });
 const server=http.listen(3004,()=>{
     console.log("server up on port 3004")
@@ -54,7 +60,7 @@ io.use(async function(socket,next){
         client.off('message',x);
     });
     console.log("new client connected");
- 
+
     cookies=client.handshake.headers.cookie.split(';')
     cookies.forEach(element => {
         let a=element.split('=');
@@ -67,6 +73,13 @@ io.use(async function(socket,next){
         
     });
     sub.subscribe(room);
+    let key;
+    pub.get(room,(err,res)=>{
+        if(res)
+        console.log(res.substr(0,10))
+        key=res;  client.emit('cache',key);
+    })
+  
     console.log('registered'+room)
     sub.on('message',(channel,message)=>{
         client.emit("data",message);
@@ -76,6 +89,10 @@ io.use(async function(socket,next){
     {client.on('message',x);
     
 }
+client.on('cache',(data)=>{
+console.log("recieved cache")
+    pub.set(room,data);
+})
     
 });
 function x(message){

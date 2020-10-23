@@ -2,7 +2,7 @@
 //mode==0-> free draw
 //mode==1 ->rectangle/shape?
 //mode==2 -> text
-//shapes transmit ni hoing
+//mode==3 ->image
 
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
@@ -70,32 +70,34 @@ canvas.addEventListener("mouseup",(e)=>{
     {
         if(mode==1 && is_rect)
         {
-            context.strokeRect(lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop);
+
+            makerectangle(lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop);
+            socket.emit('message',JSON.stringify({type:'rect_stream',draw:[lastx,lasty,e.pageX-lastx-canvas.offsetLeft,e.pageY-lasty-canvas.offsetTop],user:getCookie('user')}));
         }
         else if(mode==1 && is_circle)
         {
-            context.beginPath();
-            context.arc((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2,0,2*Math.PI,0);
-            context.stroke();
+            makecircle((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2);
+            socket.emit('message',JSON.stringify({type:'circle_stream',draw:[(lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2],user:getCookie('user')}));
+  
         }
         else 
-        {
+        {let x1=e.pageX-canvas.offsetLeft;
+            let x2=lastx;
+            let y1=e.pageY-canvas.offsetTop;
+            let y2=lasty;
+            textwriter(x1,x2,y1,y2);
+            socket.emit('message',JSON.stringify({type:'text_stream',draw:[x1,x2,y1,y2,writetext],user:getCookie('user')}));
+  
            
-            var fontArgs = context.font.split(' ');
-            var newSize =Math.min(Math.abs(e.pageX-canvas.offsetLeft-lastx),Math.abs(e.pageY-canvas.offsetTop-lasty))+'px';
-            context.font = newSize + ' ' + fontArgs[fontArgs.length - 1];
-            addtext(writetext,Math.min(lastx,e.pageX-canvas.offsetLeft),Math.max(lasty,e.pageY-canvas.offsetTop));
         }
 
         lastx=e.pageX-canvas.offsetLeft;lasty=e.pageY-canvas.offsetTop;
        
     }
-    // if(mode==2){
-    //     console.log(writetext);
-    // addtext(writetext,e.pageX-canvas.offsetLeft,e.pageY-canvas.offsetTop); }
-    socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
-    draw_stream.length=0;
-    console.log("lok"+draw_stream);
+    if(mode==0)
+    {socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
+    draw_stream.length=0;}
+    // console.log("lok"+draw_stream);
         
  
  
@@ -124,6 +126,15 @@ function draw(x,y, drawing){
  
 lastx=x,lasty=y;}
 }
+socket.on('cache',(data)=>{
+    alert("data has appeared"+data);
+    var img = new Image;
+img.onload = function(){
+  context.drawImage(img,0,0);
+};
+img.src = data;
+
+})
 socket.on("data",(message)=>{
     console.log("recieving..."+message);
     if(JSON.parse(message)['type'].localeCompare('color_pen')==0)
@@ -139,7 +150,7 @@ socket.on("data",(message)=>{
     {
         change_to_rect(0);
     }
-    if(JSON.parse(message)['type'].localeCompare('to_circ')==0)
+    if(JSON.parse(message)['type'].localeCompare('to_circle')==0)
     {
         change_to_circle(0);
     }
@@ -158,7 +169,29 @@ socket.on("data",(message)=>{
     {
         showchat(JSON.parse(message)['message'],JSON.parse(message)['user']);
     }
-
+    if(JSON.parse(message)['type'].localeCompare('totext')==0)
+    {
+        settext(1);
+    }
+    if(JSON.parse(message)['type'].localeCompare('rect_stream')==0)
+    {
+        let dummy=JSON.parse(message)['draw']
+        if(dummy.length==4)
+        makerectangle(dummy[0],dummy[1],dummy[2],dummy[3]);
+    }
+    if(JSON.parse(message)['type'].localeCompare('circle_stream')==0)
+    {
+        let dummy=JSON.parse(message)['draw']
+        if(dummy.length==3)
+        makecircle(dummy[0],dummy[1],dummy[2]);
+    }
+    if(JSON.parse(message)['type'].localeCompare('text_stream')==0)
+    {
+        let dummy=JSON.parse(message)['draw']
+        if(dummy.length==5)
+        {writetext=dummy[4];
+        textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);}
+    }
 });
 function draw_recieved(data,user_id)
 {
@@ -171,7 +204,7 @@ function draw_recieved(data,user_id)
     {lastx=DATA[i]['lastx'],lasty=DATA[i]['lasty'];
     draw(DATA[i]['x'],DATA[i]['y'],true);}
    }
-   draw_stream=[];
+   draw_stream.length=0;
 }
 function save_image()
 {
@@ -268,6 +301,14 @@ function getCookie(cname) {
     socket.emit('message',JSON.stringify({type:'chat',message:message,user:getCookie('user')}));
     document.getElementById('sendput').value=""
   }
+function textwriter(x1,x2,y1,y2)
+{
+    var fontArgs = context.font.split(' ');
+    var newSize =Math.min(Math.abs(x1-x2),Math.abs(y1-y2))+'px';
+    context.font = newSize + ' ' + fontArgs[fontArgs.length - 1];
+    addtext(writetext,Math.min(x1,x2),Math.max(y1,y2));
+    
+}
 function addtext(text,x,y)
 {
     let colortemp=context.fillStyle;
@@ -275,17 +316,36 @@ function addtext(text,x,y)
     context.fillText(text,x,y);
     context.fillStyle=colortemp;
 }
-function settext()
+function settext(num)
 {
     mode=2;
+    if(num==0)
+    {
+        socket.emit('message',JSON.stringify({type:'totext',user:getCookie('user')}));
+    }
 }
 function updatetext()
 {
     writetext=document.getElementById('drawtext').value;
-    console.log(writetext);
  
 }
-function addimage()
+function addimage(x1,x2,y1,y2,imgObj)
 {
-
+    context.drawImage(img,min(x1,x2),max(y1,y2),Math.abs(x2-x1),Math.min(y2-y1));
 }
+function makerectangle(x1,y1,w,h)
+{
+    context.strokeRect(x1,y1,w,h);
+}
+function makecircle(x1,y1,r)
+{
+    context.beginPath();
+    context.arc(x1,y1,r,0,2*Math.PI,0);
+    context.stroke();
+}
+setInterval(async() => {
+let imgData=canvas.toDataURL('image/jpeg',.60); 
+socket.emit('cache',imgData);
+console.log('sent');
+    
+},10000);
