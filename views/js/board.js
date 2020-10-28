@@ -59,7 +59,20 @@ canvas.addEventListener("mousedown",(e)=>{
     draw(e.pageX-canvas.offsetLeft,e.pageY-canvas.offsetTop,false);
 }
 });
+canvas.addEventListener("touchstart",(e)=>{
+    is_mouse_pressed=true;
+    let imgData=canvas.toDataURL('image/jpeg',1);
+    events.push(imgData);
 
+    if(mode==1 || mode==2)
+    {
+        lastx=event.touches[0].pageX-canvas.offsetLeft;
+        lasty=event.touches[0].pageY-canvas.offsetTop;
+    }
+    else{
+    draw(event.touches[0].pageX-canvas.offsetLeft,event.touches[0].pageY-canvas.offsetTop,false);
+}
+});
 canvas.addEventListener("mousemove",(e)=>{
     if(is_mouse_pressed){
     
@@ -68,8 +81,17 @@ canvas.addEventListener("mousemove",(e)=>{
     }
 
 });
+canvas.addEventListener("touchmove",(e)=>{
+    e.preventDefault();
+    if(is_mouse_pressed){
+    
+     
+        draw(event.touches[0].pageX-canvas.offsetLeft,event.touches[0].pageY-canvas.offsetTop,true);
+    }
+
+});
 canvas.addEventListener("mouseup",(e)=>{
-  
+    e.preventDefault();
     is_mouse_pressed=false;
     if(mode==1 || mode==2)
     {
@@ -97,6 +119,45 @@ canvas.addEventListener("mouseup",(e)=>{
         }
 
         lastx=e.pageX-canvas.offsetLeft;lasty=e.pageY-canvas.offsetTop;
+       
+    }
+    if(mode==0)
+    {socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
+    draw_stream.length=0;}
+    // console.log("lok"+draw_stream);
+        
+ 
+ 
+});
+canvas.addEventListener("touchend",(e)=>{
+    e.preventDefault();
+    is_mouse_pressed=false;
+    if(mode==1 || mode==2)
+    {
+        if(mode==1 && is_rect)
+        {
+
+            makerectangle(lastx,lasty,event.touches[0].pageX-lastx-canvas.offsetLeft,event.touches[0].pageY-lasty-canvas.offsetTop);
+            socket.emit('message',JSON.stringify({type:'rect_stream',draw:[lastx,lasty,event.touches[0].pageX-lastx-canvas.offsetLeft,event.touches[0].pageY-lasty-canvas.offsetTop],user:getCookie('user')}));
+        }
+        else if(mode==1 && is_circle)
+        {
+            makecircle((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2);
+            socket.emit('message',JSON.stringify({type:'circle_stream',draw:[(lastx+event.touches[0].pageX-canvas.offsetLeft)/2,(lasty+event.touches[0].pageY-canvas.offsetTop)/2,Math.sqrt((event.touches[0].pageX-lastx-canvas.offsetLeft)*(event.touches[0].pageX-lastx-canvas.offsetLeft)+(event.touches[0].pageY-lasty-canvas.offsetTop)*(event.touches[0].pageY-lasty-canvas.offsetTop))/2],user:getCookie('user')}));
+  
+        }
+        else 
+        {let x1=event.touches[0].pageX-canvas.offsetLeft;
+            let x2=lastx;
+            let y1=event.touches[0].pageY-canvas.offsetTop;
+            let y2=lasty;
+            textwriter(x1,x2,y1,y2);
+            socket.emit('message',JSON.stringify({type:'text_stream',draw:[x1,x2,y1,y2,writetext],user:getCookie('user')}));
+  
+           
+        }
+
+        lastx=event.touches[0].pageX-canvas.offsetLeft;lasty=event.touches[0].pageY-canvas.offsetTop;
        
     }
     if(mode==0)

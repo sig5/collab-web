@@ -25,8 +25,8 @@ router.get('/',(req,res,next)=>{
     }
     catch(err){
         console.log("error in session")
-      res.cookie('token','dummy',{httpOnly:true,expires:new Date(Date.now()-10)});
-      res.cookie('user','dummy',{httpOnly:true,expires:new Date(Date.now()-10)});
+        res.cookie('user','',{maxAge:-1});
+        res.cookie('token','',{maxAge:-1});
       next();
     }
 
