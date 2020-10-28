@@ -1,0 +1,86 @@
+#logout{
+    color:white;
+    margin-top: 100% !important;
+}
+#undo{
+    margin-bottom: 14% ;
+    margin-right: 90%;
+  }
+  #redo{
+    margin-bottom: 7% ;
+    margin-right: 90%;
+  }
+    #eraser{
+      margin-bottom:35% ;
+    }
+    .sidenav{
+      padding:1%;
+    }
+    ul:not(.browser-default) {
+      padding-left: 1%;
+      list-style-type: none;
+  }
+    #chatsec{
+      width:auto;
+      height: 30%;
+  
+   
+    }
+    #sending{
+     
+      display: inline-block;
+      
+    }
+    #sendput{
+      width: 60%;
+    }
+    .chat-item{
+      background-color: white;
+      padding:5% !important;
+      margin:1%;
+  
+    }
+    #chatbox{
+      background-color: rgb(56, 56, 77);
+      padding:1%;
+      height:100%;
+      width: auto;
+      overflow-y: scroll;
+    }
+    #ac{
+      margin-right: 90%;
+    }
+  .row .col{
+      padding:0px;
+      width: 100%;
+      min-height:100% ;
+      margin: 0%;
+      padding:0%;
+  }
+  #canvas_space{
+      padding :0px;
+      margin: 0%;
+    
+  }
+  #screen{
+      margin-bottom: 7%;
+  }
+  #brush_size{
+      margin-bottom: 14%;
+  }
+  #save{
+      margin-bottom: 21%;
+  }
+  #brush_shape{
+      margin-bottom: 28%;
+  }
+  i {
+    color: black;
+  
+  }
+  .colorpurple{
+    background-color: rgb(56, 56, 77)
+  }
+  .nav{
+    display: inline-block !important;
+  }

@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
     var instances = M.Sidenav.init(elems, {});
   });
-  document.getElementById('user').innerHTML=getCookie('user');
+  document.getElementById('user').innerHTML=getCookie('user')+'<i class="small material-icons">person</i>';
+  document.getElementById('room').innerHTML=getCookie('room_id')+'<i class="small material-icons">weekend</i>';
 let socket=io();
 let draw_stream=[];
 let color_pen=[];
@@ -45,6 +46,11 @@ context.fillRect(0,0,1500,800);
 context.strokeStyle="#000000"
 context.font='50px serif';
 let is_mouse_pressed=false;
+window.onload = function() {
+    if ( window.orientation == 0 || window.orientation == 180 ) { 
+        alert ('Please use your mobile device in landscape mode for a better experience'); 
+    }
+};
 canvas.addEventListener("mousedown",(e)=>{
     is_mouse_pressed=true;
     let imgData=canvas.toDataURL('image/jpeg',1);
@@ -410,7 +416,7 @@ function makecircle(x1,y1,r)
     context.stroke();
 }
 setInterval(async() => {
-let imgData=canvas.toDataURL('image/jpeg',.60); 
+let imgData=canvas.toDataURL('image/jpeg',1); 
 socket.emit('cache',imgData);
 console.log('sent');
     
