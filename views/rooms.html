@@ -5,6 +5,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli:wght@1500" />
     <link href="./index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         #subheading h2{
         font-family: 'Raleway',sans-serif;
@@ -29,9 +31,7 @@
         .links:active,.links:focus{
             border-bottom-color: black !important;
         }
-        #room-img{
-            margin-top: 20%;
-        }
+  
         .card{
             display: inline-block;
             padding-top: 20%;
@@ -48,6 +48,9 @@
         font-weight: 600 !important;
 
         }
+        @media screen and (max-width: 768px){
+            #room-img{display: none !important;}
+        }
     </style>
 </head>
 <body>
@@ -61,13 +64,13 @@
         </ul>
     </nav> -->
 <div class="row">
+    <div class="hide-on-small-only">
+<div class="col l7 center \">
 
-<div class="col s7 center">
-  
 <img src="undraw_Meeting_re_i53h.svg" class="center" id="room-img" height="45%">
-    </div>
+    </div></div>
     
-        <div class="col s5 center yellow" id="inputs">
+        <div class="col l5 s12 center yellow" id="inputs">
             <div id="subheading">
                 <h2>Ready to<br> Collaborate?</h2>
             </div>

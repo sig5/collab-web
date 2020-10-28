@@ -5,6 +5,16 @@ html {
     height: 620px;
     background-color: #ffe13b;
 }
+#roombtn{
+   margin-top: 100%;
+   display:none ;
+   width: 100%;
+
+}
+#roombtn a{ 
+  color: white;
+
+}
 #fbox{
    height: 660px;
    margin:0;
@@ -39,6 +49,30 @@ html {
    padding-right: 10% !important;
 
 }
+@media screen and (max-width: 768px) {
+#hamburger{
+   color: white;
+}
+   
+  .img1{display: none !important;}
+  #lets{display: none !important;}
+  #room-img{display: none !important;}
+  #collaborate{display: none;}
+  #main_ill{display:none;}
+  #intro_box{height: 100%;margin-top: 0% !important;}
+  .boxauth{margin-top: 30%;}
+  .page-footer p{
+     display: inline-block;
+   margin-right: 7%;
+  }
+  #whatbox,#fbox{
+     height: 100%;
+  }
+.hide-on-large-only .row{
+   margin-bottom: 0%;
+}
+   
+   }
 
 .card-tabs{
    padding-top: 5%;
@@ -46,13 +80,13 @@ html {
 #lets{
 
    font-family: 'Advent Pro', sans-serif;
-   font-size:100px;
+   font-size:7vw;
    margin-left: 20%;
 }
 
 #collaborate{
 font-family: 'Advent Pro', sans-serif;
-   font-size:100px;
+   font-size:7vw;
 color: white;
 margin-left: 20%;
 
@@ -68,7 +102,8 @@ line-height: 94px;
 }
 
 #main_ill{
-   height: 200px;
+   /* height: 200px; */
+   width: 100%;
    margin-top: 60%;
   
 }
@@ -111,7 +146,8 @@ line-height: 94px;
    min-width: 100px;
 }
 .img1{
-   height: 50%;
+   /* height: 50%; */
+width: 100%;
    margin-left: 30%;
    margin-top: 20%;
 }

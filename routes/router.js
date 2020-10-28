@@ -70,7 +70,7 @@ router.post('/signup',valid,async(req,res)=>{
 username=req.body.username;
 password=await bcrypt.hash(req.body.password,salt_r);
 mobile=req.body.email;
-quer='select * from users where email='+db.escape(username);
+quer='select * from users where username='+db.escape(username);
 db.query(quer,(err,result)=>{
     if(result.length){
         res.status(409).send({

@@ -8,6 +8,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet"> 
 </head>
 <style>
+  @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
+#undo{
+  margin-bottom: 14% ;
+  margin-right: 90%;
+}
+#redo{
+  margin-bottom: 7% ;
+  margin-right: 90%;
+}
   #eraser{
     margin-bottom:35% ;
   }
@@ -202,7 +221,14 @@ i {
   
       <a href="#" data-target="slide-out" class="sidenav-trigger btn-floating btn-large colorpurple"><i class="material-icons">chat</i></a>
   </div>
- 
+  <div class="fixed-action-btn" id="undo">
+  
+    <a href="#" class=" btn-floating btn-large colorpurple" onclick="undo()"><i class="material-icons">undo</i></a>
+</div>
+<div class="fixed-action-btn" id="redo">
+  
+  <a href="#" class=" btn-floating btn-large colorpurple" onclick="redo()"><i class="material-icons">redo</i></a>
+</div>
   
    
  
@@ -214,6 +240,6 @@ i {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 <script src="board.js"></script>
-
+<script>ScreenOrientation.lock("landscape")</script>
 
 </html>
