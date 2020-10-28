@@ -1,36 +1,56 @@
 <html>
 <head>
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Muli:wght@900" />
     <link href="/index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 <body>
+    <div class="hide-on-large-only">
+    <ul id="slide-out" class="sidenav">
+        <li class="menu_items"><a href="#introbox">Home</a></li>
+        <li class="menu_items"><a href="#whatbox">About us</a></li>
+        <li class="menu_items"><a>Contact us</a></li>
+        <li class="menu_items" ><a id="statem"></a></li>
+        <li class="menu_items" ><a id="logoutm" href="/logout">Log out</a></li>
+    
+      </ul>
+   <div class="row yellow">
+       <div class="col s5">
+      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons medium" id="hamburger">menu</i></a></div> 
+      <div class="left col s7">Corral</div>
+    </div></div>
+  <div class="hide-on-small-only"> 
     <nav class="nav-wrapper yellow ">
-        <a href="#"class="menu_items"><img height="100px" src="logo_transparent.png"><span id="logotext" class="menu-items">Corral</span></a>
-        <ul id="nav-mobile" class="right hide-on-mid-and-down ">
+        <a href="#"class="menu_items "><img height="100px" src="logo_transparent.png"><span id="logotext" class="menu-items">Corral</span></a>
+         <ul id="nav-mobile" class="right ">
             <li class="menu_items"><a href="#introbox">Home</a></li>
             <li class="menu_items"><a href="#whatbox">About us</a></li>
             <li class="menu_items"><a>Contact us</a></li>
-            <li class="menu_items" ><a id="state">USER</a></li>
+            <li class="menu_items" ><a id="state"></a></li>
             <li class="menu_items" ><a id="logout" href="/logout">Log out</a></li>
             
         </ul>
-    </nav>
+    </nav></div>
 <div class="row yellow" id="intro_box">
-<div class="leftbox col s5 ">
+<div class="show-on-large leftbox col s0 l5">
     <span id="lets">Let's</span><br>
      <span id="collaborate">Collaborate</span><br>
     
 </div>
-<div class="col s3">
-    <img src="undraw_real_time_collaboration_c62i.svg " id="main_ill">
+<div class="col s1 l3">
+    <img class="show-on-large" src="undraw_real_time_collaboration_c62i.svg " id="main_ill">
 </div>
 
-<div class="col s3">
+<div class="col s11 l3">
+    <div id="roombtn" class=" center btn">
+       <a href="/rooms"> Go to rooms</a>
+    </div>
     <div class="card boxauth" id="authcard">
     <div class="card-tabs">
       <ul class="tabs tabs-fixed-width">
@@ -40,7 +60,7 @@
     </div>
     <div class="card-content " id="logform">
         <div class="">
-        <form action="/login" method="POST" id="login_form">
+        <form action="/login" method="POST" id="login_form" >
 
           <div class="input-field">
             <i class="tiny material-icons prefix">account_circle</i>
@@ -72,12 +92,12 @@
         </div>
         <div class="input-field">
             <i class="tiny material-icons prefix">lock_open</i>
-            <input id="password_r" type="password" class="validate" label="password" name="password">
+            <input id="password_r" type="password" class="validate" label="password" name="password" data-length="6">
             <label for="password_r">Password</label>            
         </div>
         <div class="input-field">
             <i class="tiny material-icons prefix">mail_outline</i>
-            <input id="email" type="text" class="validate" label="E-mail" name="email">
+            <input id="email" type="email" class="validate" label="E-mail" name="email" data-error="Enter avalid email address">
             <label for="email">E-mail</label>            
         </div>
         <button class="waves-effect waves-light btn " id="register_button" type="submit">Register</button><br>
@@ -89,14 +109,14 @@
     </div>
   </div>
 </div>
-<div class="col s1">
+<div class="col s1 l1">
 </div>
  </div>
  <div class="row" id="whatbox">
-     <div class="col s4">
+     <div class="col hide-on-small l4">
         <img src="undraw_online_reading_np7n.svg" class="img1">
      </div>
-     <div class="col s8">
+     <div class="col s10 l8">
         <h1 class=" subhead" >What we do?</h1>
         <ul class="subpoint">
             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </li><br> 
@@ -110,9 +130,9 @@
  </div>
  <div class="row yellow" id="fbox">
 
-<div class="col s4">
+<div class="col s0 l4">
     <img src="undraw_Scrum_board_re_wk7v (1).svg" class="img1"></div>
-    <div class="col s8">
+    <div class="col s8 l18">
         <h1 class="subhead" id="feat">Features</h1>
         <ul class="subpoint">
             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor </li><br> 
@@ -126,7 +146,7 @@
 
 </body>
 <footer class="page-footer">
-    <div class="container">
+    <div class="container center">
         <p class="center">Developed with <span id="heart">❤</span> by sig5</p>
     
     </div>
@@ -139,11 +159,15 @@ if(getCookie("user")!="" && getCookie("user")!="dummy")
 {
    document.getElementById('authcard').style.visibility='hidden';
    document.getElementById('state').style.display='inline-block';
+   document.getElementById('roombtn').style.display='inline-block';
    document.getElementById('state').innerHTML=getCookie("user");
+   document.getElementById('statem').innerHTML=getCookie("user");
 }
 else{
     document.getElementById('state').style.display='none';
     document.getElementById('logout').style.display='none';
+    document.getElementById('statem').style.display='none';
+    document.getElementById('logoutm').style.display='none';
 }
 
     function logintoggle()
@@ -165,11 +189,28 @@ $(document).ready(function(){
            alert(data['msg']);
             $("#result").html(data);
         }).fail(function(data){
-            alert("error");
+            console.log(data)
+            alert(data.responseJSON.msg)
         });
     });
 });
-
+$(document).ready(function(){
+    $("#login_form").on("submit", function(event){
+        event.preventDefault();
+ 
+        var formValues= $(this).serialize();
+ 
+        $.post("/login", formValues, function(data,status){
+           alert(status);
+            $("#result").html(data);
+            if(status.toString().localeCompare("success")==0)
+            window.location.href="/rooms"
+        }).fail(function(data){
+            console.log(data)
+            alert(data.responseJSON.msg)
+        });
+    });
+});
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -185,7 +226,10 @@ function getCookie(cname) {
     }
     return "";
   }
-
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {});
+  });
 
 </script>
 

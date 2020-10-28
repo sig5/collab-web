@@ -27,6 +27,8 @@ let draw_stream=[];
 let color_pen=[];
 let to_board=[];
 let to_size=[];
+let events=[];
+let undone=[];
 let mode=0;
 var writetext="dummy";
 let is_rect=false,is_circle=false;
@@ -45,6 +47,9 @@ context.font='50px serif';
 let is_mouse_pressed=false;
 canvas.addEventListener("mousedown",(e)=>{
     is_mouse_pressed=true;
+    let imgData=canvas.toDataURL('image/jpeg',1);
+    events.push(imgData);
+
     if(mode==1 || mode==2)
     {
         lastx=e.pageX-canvas.offsetLeft;
@@ -64,7 +69,7 @@ canvas.addEventListener("mousemove",(e)=>{
 
 });
 canvas.addEventListener("mouseup",(e)=>{
-    
+  
     is_mouse_pressed=false;
     if(mode==1 || mode==2)
     {
@@ -127,7 +132,7 @@ function draw(x,y, drawing){
 lastx=x,lasty=y;}
 }
 socket.on('cache',(data)=>{
-    alert("data has appeared"+data);
+    
     var img = new Image;
 img.onload = function(){
   context.drawImage(img,0,0);
@@ -348,4 +353,27 @@ let imgData=canvas.toDataURL('image/jpeg',.60);
 socket.emit('cache',imgData);
 console.log('sent');
     
-},10000);
+},5000);
+
+function undo(){
+let a=events.pop();
+let imgData=canvas.toDataURL('image/jpeg',1);
+undone.push(imgData);
+var img = new Image;
+img.onload = function(){
+  context.drawImage(img,0,0);
+};
+img.src = a;
+}
+function redo()
+{
+let a=undone.pop();
+let imgData=canvas.toDataURL('image/jpeg',1);
+events.push(imgData);
+var img = new Image;
+img.onload = function(){
+  context.drawImage(img,0,0);
+};
+img.src = a;
+
+}

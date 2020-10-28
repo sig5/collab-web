@@ -41,6 +41,9 @@ let listeners=[];
 let room='abc';
 let user;
 //pub sub;
+// let pub=redis.createClient({host:"redis-16526.c81.us-east-1-2.ec2.cloud.redislabs.com",port:16526,password:"sakarsinghal"});
+// let sub=redis.createClient({host:"redis-16526.c81.us-east-1-2.ec2.cloud.redislabs.com",port:16526,password:"sakarsinghal"});
+//pub sub;
 let pub=redis.createClient();
 let sub=redis.createClient();
 io.use(async function(socket,next){
