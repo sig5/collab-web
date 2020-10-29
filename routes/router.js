@@ -1,4 +1,6 @@
 express=require('express');
+const dotenv = require('dotenv');
+dotenv.config();
 router=express.Router();
 bcrypt=require('bcrypt'); 
 jwt= require('jsonwebtoken');
@@ -19,7 +21,7 @@ router.get('/',(req,res,next)=>{
   
         let token=parsed["token"];
         console.log(token);
-        const decoded=jwt.verify(token,'AVISHKAR');
+        const decoded=jwt.verify(token,process.env.SECRET_KEY);
         req.userData=decoded;
         next();
     }
@@ -43,7 +45,7 @@ router.post('/login',valid,async function(req,res){
         throw err;
         console.log(result);
         if(result.length){
-            let SECRET_KEY="AVISHKAR";
+            let SECRET_KEY=process.env.SECRET_KEY;
             console.log('{"user":"'+username+'"}'); 
             console.log('{"pass":"'+result[0]['password']+'"}');
             console.log(password);

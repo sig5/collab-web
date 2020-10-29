@@ -1,6 +1,5 @@
 const express = require('express')
 const path= require('path')
-const log=require('why-is-node-running')
 const bodyparser=require('body-parser')
 const router=require('./routes/router.js')
 const cors=require('cors')
@@ -9,7 +8,6 @@ const http=require('http').Server(app)
 const io=require('socket.io')(http);
 const redis=require('redis');
 const instance_check=require('./middleware/if_logged_in')
-const { isNull } = require('util')
 app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
@@ -17,6 +15,9 @@ app.use(express.static('views/images'))
 app.use(express.static('views/js'))
 app.use(express.static('views/css'))
 app.use(router);
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.post('/make_room',instance_check.is_in,(req,res)=>{
     let room=null;
@@ -34,8 +35,8 @@ else{
     res.status(301).redirect('/');
 }
 });
-const server=http.listen(3004,()=>{
-    console.log("server up on port 3004")
+const server=http.listen(process.env.PORT,()=>{
+    console.log(`server up on port ${process.env.PORT}`)
 });
 
 let listeners=[];
@@ -171,7 +172,7 @@ setInterval(async() => {
         client.emit('occupants',res);
     })
         
-    },5000);
+    },10000);
     
     
 });
