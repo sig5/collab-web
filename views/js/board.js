@@ -265,6 +265,21 @@ socket.on("data",(message)=>{
         textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);}
     }
 });
+socket.on('occupants',(message)=>{
+console.log(message);
+lst=JSON.parse(message);
+document.getElementById('occ').innerHTML=lst.length;
+document.getElementById("participants").innerHTML="";
+lst.forEach(element => {
+    let a=document.createElement('a');
+    a.innerHTML=element;
+    document.getElementById("participants").appendChild(a);
+    document.getElementById("participants").appendChild(document.createElement('br'));
+
+});
+
+
+});
 function draw_recieved(data,user_id)
 {
     if(user_id.localeCompare(getCookie('user'))!=0)

@@ -9,6 +9,7 @@ const http=require('http').Server(app)
 const io=require('socket.io')(http);
 const redis=require('redis');
 const instance_check=require('./middleware/if_logged_in')
+const { isNull } = require('util')
 app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
@@ -57,11 +58,7 @@ io.use(async function(socket,next){
     }
   
     }).on('connection',(client)=>{    
-    client.on('disconnect',()=>{
-        
-        console.log('closed');
-        client.off('message',x);
-    });
+  
     console.log("new client connected");
 
     cookies=client.handshake.headers.cookie.split(';')
@@ -81,7 +78,42 @@ io.use(async function(socket,next){
         if(res)
         console.log(res.substr(0,10))
         key=res;  client.emit('cache',key);
-    })
+    });
+    pub.get(room+'list',(err,res)=>{
+        if(res===null)
+        {
+        rooms=[];
+        rooms.push(user);
+        rooms=Array.from(new Set(rooms));
+         pub.set(room+'list',JSON.stringify(rooms));  
+        }
+        else{
+            lst=JSON.parse(res);
+            lst.push(user);
+            lst=Array.from(new Set(lst));
+            pub.set(room+'list',JSON.stringify(lst));  
+
+        }
+
+    });
+    client.on('disconnect',()=>{
+        pub.get(room+'list',(err,res)=>{
+            if(!(res===null))
+            {
+            rooms=JSON.parse(res);
+            rooms=rooms.filter(item=>item!=user);
+             pub.set(room+'list',JSON.stringify(rooms)); 
+             console.log(rooms); 
+            }
+            else{
+                console.log("lol");
+    
+            }
+    
+        });
+        console.log('closed');
+       
+    });
   
     console.log('registered'+room)
     sub.on('message',(channel,message)=>{
@@ -96,6 +128,14 @@ client.on('cache',(data)=>{
 console.log("recieved cache")
     pub.set(room,data);
 })
+setInterval(async() => {
+    pub.get(room+'list',(err,res)=>{
+        console.log(res);
+        client.emit('occupants',res);
+    })
+        
+    },5000);
+    
     
 });
 function x(message){
