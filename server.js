@@ -39,8 +39,7 @@ const server=http.listen(3004,()=>{
 });
 
 let listeners=[];
-let room='abc';
-let user;
+  
 //pub sub;
 // let pub=redis.createClient({host:"redis-16526.c81.us-east-1-2.ec2.cloud.redislabs.com",port:16526,password:"sakarsinghal"});
 // let sub=redis.createClient({host:"redis-16526.c81.us-east-1-2.ec2.cloud.redislabs.com",port:16526,password:"sakarsinghal"});
@@ -48,6 +47,7 @@ let user;
 let pub=redis.createClient();
 let sub=redis.createClient();
 io.use(async function(socket,next){
+ 
     if(instance_check.f(socket.handshake)){
         console.log("here");
         next();
@@ -58,6 +58,8 @@ io.use(async function(socket,next){
     }
   
     }).on('connection',(client)=>{    
+        let room='abc';
+        let user;
   
     console.log("new client connected");
 
@@ -72,6 +74,7 @@ io.use(async function(socket,next){
         user=a[1];
         
     });
+    pub.set(room+"read","false");
     sub.subscribe(room);
     let key;
     pub.get(room,(err,res)=>{
@@ -94,6 +97,22 @@ io.use(async function(socket,next){
             pub.set(room+'list',JSON.stringify(lst));  
 
         }
+
+    });
+ let current=user;
+    client.on('read-only',(message)=>{
+        let state=null;
+        pub.get(room+'read',(err,res)=>{
+            state=res;
+
+        });
+        console.log('making board readonly')
+        if(message.localeCompare('true')==0)
+        {pub.set(room+'read',user);
+        console.log('here'+user);
+    }
+        else if(message.localeCompare('false')==0 && user.localeCompare(state)==0)
+        pub.set(room+'read','false');
 
     });
     client.on('disconnect',()=>{
@@ -121,7 +140,20 @@ io.use(async function(socket,next){
         console.log('message recieved on redis instance'+message.substr(1,100));
     });
   
-    {client.on('message',x);
+    {client.on('message',(message)=>{
+        pub.get(room+'read',(err,res)=>{
+            console.log(res);
+            if(res.localeCompare("false")==0)
+            pub.publish(room,message);
+            else if(current.localeCompare(res)==0)
+            {
+                console.log(user+res);
+                pub.publish(room,message);
+            }
+
+        });
+        //pub.publish(room,message);
+    });
     
 }
 client.on('cache',(data)=>{
@@ -139,5 +171,6 @@ setInterval(async() => {
     
 });
 function x(message){
+    
     pub.publish(room,message);
 }
