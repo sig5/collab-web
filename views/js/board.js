@@ -55,7 +55,8 @@ canvas.addEventListener("mousedown",(e)=>{
     is_mouse_pressed=true;
     let imgData=canvas.toDataURL('image/jpeg',1);
     events.push(imgData);
-
+    undone=undone.splice(-10);
+    events=events.splice(-10);
     if(mode==1 || mode==2)
     {
         lastx=e.pageX-canvas.offsetLeft;
@@ -460,7 +461,8 @@ img.src = a;
 setTimeout(()=>{
     socket.emit('message',JSON.stringify({type:'state',draw:canvas.toDataURL('image/jpeg',1)}));
     },500);
-
+    undone=undone.splice(-10);
+    events=events.splice(-10);
 }
 function redo()
 {
@@ -475,7 +477,8 @@ img.src = a;
 setTimeout(()=>{
 socket.emit('message',JSON.stringify({type:'state',draw:canvas.toDataURL('image/jpeg',1)}));
 },500);
-
+undone=undone.splice(-10);
+events=events.splice(-10);
 }
 function readonly()
     {

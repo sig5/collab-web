@@ -1,9 +1,11 @@
 const db=require('mysql')
+const dotenv = require('dotenv');
+dotenv.config();
 conn=  db.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'',
-    database:'collab_db'
+    host:process.env.db_url,
+    user:process.env.db_user,
+    password:process.env.db_pass,
+    database:process.env.db_name
 });
 conn.connect((err)=>{
     if(! err){

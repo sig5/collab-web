@@ -1,6 +1,8 @@
 module.exports={
+    
     is_in:function is_in(req,res,next){
-    try{
+    try{const dotenv = require('dotenv');
+    dotenv.config();
         const data =req.headers.cookie.split(';');
         console.log(data);
         let parsed={}
@@ -8,10 +10,10 @@ module.exports={
             element_p=element.split('=')
             parsed[element_p[0].trim()]=element_p[1];
         });
-        console.log(parsed);
+        console.log("CHECKING SESSION");
         let token=parsed["token"];
         console.log(token);
-        const decoded=jwt.verify(token,'AVISHKAR');
+        const decoded=jwt.verify(token,process.env.SECRET_KEY);
         req.userData=decoded;
         next();
     }
