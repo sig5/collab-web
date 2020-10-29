@@ -101,18 +101,23 @@ io.use(async function(socket,next){
     });
  let current=user;
     client.on('read-only',(message)=>{
-        let state=null;
+        var state;
         pub.get(room+'read',(err,res)=>{
+            console.log('result'+res);
             state=res;
+            if(message.localeCompare('false')==0 && user.localeCompare(state)==0)
+            {console.log('read not')
+                pub.set(room+'read','false');
+        }
 
         });
         console.log('making board readonly')
         if(message.localeCompare('true')==0)
         {pub.set(room+'read',user);
-        console.log('here'+user);
+        
     }
-        else if(message.localeCompare('false')==0 && user.localeCompare(state)==0)
-        pub.set(room+'read','false');
+       
+  
 
     });
     client.on('disconnect',()=>{
