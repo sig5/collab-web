@@ -264,6 +264,17 @@ socket.on("data",(message)=>{
         {writetext=dummy[4];
         textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);}
     }
+    if(JSON.parse(message)['type'].localeCompare('state')==0)
+    {
+        let dummy=JSON.parse(message)['draw'];
+
+var img = new Image;
+img.onload = function(){
+  context.drawImage(img,0,0);
+};
+img.src = dummy;
+    
+    }
 });
 socket.on('occupants',(message)=>{
 console.log(message);
@@ -446,6 +457,10 @@ img.onload = function(){
   context.drawImage(img,0,0);
 };
 img.src = a;
+setTimeout(()=>{
+    socket.emit('message',JSON.stringify({type:'state',draw:canvas.toDataURL('image/jpeg',1)}));
+    },500);
+
 }
 function redo()
 {
@@ -457,6 +472,9 @@ img.onload = function(){
   context.drawImage(img,0,0);
 };
 img.src = a;
+setTimeout(()=>{
+socket.emit('message',JSON.stringify({type:'state',draw:canvas.toDataURL('image/jpeg',1)}));
+},500);
 
 }
 function readonly()
