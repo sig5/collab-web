@@ -92,7 +92,7 @@
         </div>
         <div class="input-field">
             <i class="tiny material-icons prefix">lock_open</i>
-            <input id="password_r" type="password" class="validate" label="password" name="password" data-length="6">
+            <input id="password_r" type="password" class="validate" label="password" name="password" >
             <label for="password_r">Password</label>            
         </div>
         <div class="input-field">
@@ -201,7 +201,7 @@ $(document).ready(function(){
         var formValues= $(this).serialize();
  
         $.post("/login", formValues, function(data,status){
-           alert(status);
+         
             $("#result").html(data);
             if(status.toString().localeCompare("success")==0)
             window.location.href="/rooms"

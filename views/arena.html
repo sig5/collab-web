@@ -6,111 +6,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@100&family=Raleway:wght@200&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@600&display=swap" rel="stylesheet"> 
+    <link href="./arena.css" rel="stylesheet"> 
 </head>
-<style>
-  @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    overflow-x: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
-}
-#undo{
-  margin-bottom: 14% ;
-  margin-right: 90%;
-}
-#redo{
-  margin-bottom: 7% ;
-  margin-right: 90%;
-}
-  #eraser{
-    margin-bottom:35% ;
-  }
-  .sidenav{
-    padding:1%;
-  }
-  ul:not(.browser-default) {
-    padding-left: 1%;
-    list-style-type: none;
-}
-  #chatsec{
-    width:auto;
-    height: 30%;
-
- 
-  }
-  #sending{
-   
-    display: inline-block;
-    
-  }
-  #sendput{
-    width: 60%;
-  }
-  .chat-item{
-    background-color: white;
-    padding:5% !important;
-    margin:1%;
-
-  }
-  #chatbox{
-    background-color: rgb(56, 56, 77);
-    padding:1%;
-    height:100%;
-    width: auto;
-    overflow-y: scroll;
-  }
-  #ac{
-    margin-right: 90%;
-  }
-.row .col{
-    padding:0px;
-    width: 100%;
-    min-height:100% ;
-    margin: 0%;
-    padding:0%;
-}
-#canvas_space{
-    padding :0px;
-    margin: 0%;
-  
-}
-#screen{
-    margin-bottom: 7%;
-}
-#brush_size{
-    margin-bottom: 14%;
-}
-#save{
-    margin-bottom: 21%;
-}
-#brush_shape{
-    margin-bottom: 28%;
-}
-i {
-  color: black;
-
-}
-.colorpurple{
-  background-color: rgb(56, 56, 77)
-}
-.nav{
-  display: inline-block !important;
-}
-</style>
 <body>
 
 
   <ul id="slide-out" class="sidenav">
     <li>
-      <div id="user">
-      </div>
+      <a id="user">
+     </a>
     </li>
-    <li ><a id="logout" href="/logout">Log out</a></li>
+    <li>
+      <a id="room"><i class="small material-icons">weekend</i>
+     </a>
+    </li>
+ 
   <li><a>Group Chat</a></li>
     <li>
     <div id="chatsec" >
@@ -122,8 +32,15 @@ i {
   <button class="waves-effect btn colorpurple" onclick="sendchat()">Send</button> 
     </div>
 </div>
-  </li>
-  <br>
+<br><br>
+<a id="occ"></a>
+<div id="people">
+  <div id="participants">
+
+  </div>
+</div>
+  </li>   <li class="red center"><a id="logout" href="/logout">Log out</a></li>
+
 
 </ul>
  
@@ -235,11 +152,9 @@ i {
 </div>
 
 </body>
-<script src="TiledCanvas.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
 <script src="board.js"></script>
-<script>ScreenOrientation.lock("landscape")</script>
+
 
 </html>

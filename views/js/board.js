@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
     var instances = M.Sidenav.init(elems, {});
   });
-  document.getElementById('user').innerHTML=getCookie('user');
+  document.getElementById('user').innerHTML=getCookie('user')+'<i class="small material-icons">person</i>';
+  document.getElementById('room').innerHTML=getCookie('room_id')+'<i class="small material-icons">weekend</i>';
 let socket=io();
 let draw_stream=[];
 let color_pen=[];
@@ -45,6 +46,11 @@ context.fillRect(0,0,1500,800);
 context.strokeStyle="#000000"
 context.font='50px serif';
 let is_mouse_pressed=false;
+window.onload = function() {
+    if ( window.orientation == 0 || window.orientation == 180 ) { 
+        alert ('Please use your mobile device in landscape mode for a better experience'); 
+    }
+};
 canvas.addEventListener("mousedown",(e)=>{
     is_mouse_pressed=true;
     let imgData=canvas.toDataURL('image/jpeg',1);
@@ -59,7 +65,20 @@ canvas.addEventListener("mousedown",(e)=>{
     draw(e.pageX-canvas.offsetLeft,e.pageY-canvas.offsetTop,false);
 }
 });
+canvas.addEventListener("touchstart",(e)=>{
+    is_mouse_pressed=true;
+    let imgData=canvas.toDataURL('image/jpeg',1);
+    events.push(imgData);
 
+    if(mode==1 || mode==2)
+    {
+        lastx=event.touches[0].pageX-canvas.offsetLeft;
+        lasty=event.touches[0].pageY-canvas.offsetTop;
+    }
+    else{
+    draw(event.touches[0].pageX-canvas.offsetLeft,event.touches[0].pageY-canvas.offsetTop,false);
+}
+});
 canvas.addEventListener("mousemove",(e)=>{
     if(is_mouse_pressed){
     
@@ -68,8 +87,17 @@ canvas.addEventListener("mousemove",(e)=>{
     }
 
 });
+canvas.addEventListener("touchmove",(e)=>{
+    e.preventDefault();
+    if(is_mouse_pressed){
+    
+     
+        draw(event.touches[0].pageX-canvas.offsetLeft,event.touches[0].pageY-canvas.offsetTop,true);
+    }
+
+});
 canvas.addEventListener("mouseup",(e)=>{
-  
+    e.preventDefault();
     is_mouse_pressed=false;
     if(mode==1 || mode==2)
     {
@@ -97,6 +125,45 @@ canvas.addEventListener("mouseup",(e)=>{
         }
 
         lastx=e.pageX-canvas.offsetLeft;lasty=e.pageY-canvas.offsetTop;
+       
+    }
+    if(mode==0)
+    {socket.emit('message',JSON.stringify({type:'data_stream',draw:draw_stream,user:getCookie('user')}));
+    draw_stream.length=0;}
+    // console.log("lok"+draw_stream);
+        
+ 
+ 
+});
+canvas.addEventListener("touchend",(e)=>{
+    e.preventDefault();
+    is_mouse_pressed=false;
+    if(mode==1 || mode==2)
+    {
+        if(mode==1 && is_rect)
+        {
+
+            makerectangle(lastx,lasty,event.touches[0].pageX-lastx-canvas.offsetLeft,event.touches[0].pageY-lasty-canvas.offsetTop);
+            socket.emit('message',JSON.stringify({type:'rect_stream',draw:[lastx,lasty,event.touches[0].pageX-lastx-canvas.offsetLeft,event.touches[0].pageY-lasty-canvas.offsetTop],user:getCookie('user')}));
+        }
+        else if(mode==1 && is_circle)
+        {
+            makecircle((lastx+e.pageX-canvas.offsetLeft)/2,(lasty+e.pageY-canvas.offsetTop)/2,Math.sqrt((e.pageX-lastx-canvas.offsetLeft)*(e.pageX-lastx-canvas.offsetLeft)+(e.pageY-lasty-canvas.offsetTop)*(e.pageY-lasty-canvas.offsetTop))/2);
+            socket.emit('message',JSON.stringify({type:'circle_stream',draw:[(lastx+event.touches[0].pageX-canvas.offsetLeft)/2,(lasty+event.touches[0].pageY-canvas.offsetTop)/2,Math.sqrt((event.touches[0].pageX-lastx-canvas.offsetLeft)*(event.touches[0].pageX-lastx-canvas.offsetLeft)+(event.touches[0].pageY-lasty-canvas.offsetTop)*(event.touches[0].pageY-lasty-canvas.offsetTop))/2],user:getCookie('user')}));
+  
+        }
+        else 
+        {let x1=event.touches[0].pageX-canvas.offsetLeft;
+            let x2=lastx;
+            let y1=event.touches[0].pageY-canvas.offsetTop;
+            let y2=lasty;
+            textwriter(x1,x2,y1,y2);
+            socket.emit('message',JSON.stringify({type:'text_stream',draw:[x1,x2,y1,y2,writetext],user:getCookie('user')}));
+  
+           
+        }
+
+        lastx=event.touches[0].pageX-canvas.offsetLeft;lasty=event.touches[0].pageY-canvas.offsetTop;
        
     }
     if(mode==0)
@@ -197,6 +264,21 @@ socket.on("data",(message)=>{
         {writetext=dummy[4];
         textwriter(dummy[0],dummy[1],dummy[2],dummy[3]);}
     }
+});
+socket.on('occupants',(message)=>{
+console.log(message);
+lst=JSON.parse(message);
+document.getElementById('occ').innerHTML=lst.length;
+document.getElementById("participants").innerHTML="";
+lst.forEach(element => {
+    let a=document.createElement('a');
+    a.innerHTML=element;
+    document.getElementById("participants").appendChild(a);
+    document.getElementById("participants").appendChild(document.createElement('br'));
+
+});
+
+
 });
 function draw_recieved(data,user_id)
 {
@@ -349,7 +431,7 @@ function makecircle(x1,y1,r)
     context.stroke();
 }
 setInterval(async() => {
-let imgData=canvas.toDataURL('image/jpeg',.60); 
+let imgData=canvas.toDataURL('image/jpeg',1); 
 socket.emit('cache',imgData);
 console.log('sent');
     
