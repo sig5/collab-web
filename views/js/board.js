@@ -459,3 +459,11 @@ img.onload = function(){
 img.src = a;
 
 }
+function readonly()
+    {
+        socket.emit('read-only','true');
+    }
+    function readonlynot()
+    {
+        socket.emit('read-only','false');
+    }
