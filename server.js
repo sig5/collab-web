@@ -1,3 +1,4 @@
+module.exports=(port)=>{
 const express = require('express')
 const path= require('path')
 const bodyparser=require('body-parser')
@@ -16,8 +17,6 @@ app.use(express.static('views/js'))
 app.use(express.static('views/css'))
 app.use(router);
 
-const dotenv = require('dotenv');
-dotenv.config();
 
 app.post('/make_room',instance_check.is_in,(req,res)=>{
     let room=null;
@@ -35,8 +34,8 @@ else{
     res.status(301).redirect('/');
 }
 });
-const server=http.listen(process.env.PORT,()=>{
-    console.log(`server up on port ${process.env.PORT}`)
+const server=http.listen(port,()=>{
+    console.log(`server up on port ${port}`)
 });
 
 let listeners=[];
@@ -50,7 +49,7 @@ let sub=redis.createClient();
 io.use(async function(socket,next){
  
     if(instance_check.f(socket.handshake)){
-        console.log("here");
+        console.log(`${port}`+"here");
         next();
     }
     else {
@@ -180,3 +179,4 @@ function x(message){
     
     pub.publish(room,message);
 }
+};
