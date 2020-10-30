@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npx nodemon server.js"
+    "start": "loadbalancer start --config config.json",
+    "stop": "loadbalancer stop"
   },
   "author": "",
   "license": "ISC",
@@ -17,9 +18,12 @@
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "loadbalancer": "^0.9.26",
+    "log-prefix": "^0.1.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.4",
     "pug": "^3.0.0",
+    "request": "^2.88.2",
     "socket.io": "^2.3.0",
     "uuid": "^8.3.0",
     "why-is-node-running": "^2.2.0"
