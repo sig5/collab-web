@@ -12,10 +12,10 @@
 # Major Libraries used:
 ## JS
 1->Loadbalancer.js-> For setting up a sticky server.  
-2->Express->HTTP server setup
-3->bcrypt,jwt
-4->Redis
-5->socket.io
+2->Express->HTTP server setup  
+3->bcrypt,jwt  
+4->Redis  
+5->socket.io  
 ## css
 1-> Materialize CSS
 
