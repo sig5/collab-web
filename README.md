@@ -35,4 +35,26 @@
 1->Fully Horizontally Scalable backend design.  
 2->REDIS caching to store state of the rooms at small intervals of time.  
 3->Load balanced distributed architecture.
-
+# How to setup
+1-> Create a table users with fields "username","email" and "password"(to store hash) and username as primary key in a mysql database.  
+2->Create a .env file with the following content:  
+## LOCAL PORTS TO RUN SERVER INSTANCES ON:
+PORT1  
+PORT2  
+PORT3  
+## SQL DATABASE
+db_url  
+db_user  
+db_pass  
+db_name  
+## REDIS SERVER
+REDIS_HOST  
+REDIS_PORT  
+REDIS_PASS  
+## KEYS
+SECRET_KEY  
+# How to run:
+1->enter "Node path/to/handler.js" in the terminal.  
+2->enter npm start to start the load balancer at port 8080.  
+3->The website is accessible on the "localhost:8080".  
+4->npm stop will stop the load balancer.
