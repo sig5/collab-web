@@ -31,7 +31,7 @@
 9->Realtime Group Chats.  
 10->Realtime occupants status independent of servers.  
 11->Undo/redo operations are Supported.  
-# Major attractions
+# Major Back-end attractions
 1->Fully Horizontally Scalable backend design.  
 2->REDIS caching to store state of the rooms at small intervals of time.  
 3->Load balanced distributed architecture.
