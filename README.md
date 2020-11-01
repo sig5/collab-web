@@ -20,17 +20,17 @@
 1-> Materialize CSS
 
 # Features
-1->Login Sign-up with maintainenence of session
-2->Different colors and size of pens and Erasers
-3->Saving the whiteboards locally as images.
-4->Share room using a link.
-5->Room management (Custom generation and random)
-6->ReadOnly->limit the writing privileges on the board
-7->Ability to add text(Pannable).
-8->Ability to add Shapes (Pnnable).
-9->Realtime Group Chats.
-10->Realtime occupants status independent of servers.
-11->Undo/redo operations are Supported.
+1->Login Sign-up with maintainenence of session  
+2->Different colors and size of pens and Erasers  
+3->Saving the whiteboards locally as images.  
+4->Share room using a link.  
+5->Room management (Custom generation and random)  
+6->ReadOnly->limit the writing privileges on the board  
+7->Ability to add text(Pannable).  
+8->Ability to add Shapes (Pnnable).  
+9->Realtime Group Chats.  
+10->Realtime occupants status independent of servers.  
+11->Undo/redo operations are Supported.  
 # Major attractions
-1->Fully Horizontally Scalable backend design.
-2->REDIS caching to store state of the user at small intervals of time.
+1->Fully Horizontally Scalable backend design.  
+2->REDIS caching to store state of the user at small intervals of time.  
