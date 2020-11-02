@@ -2,7 +2,7 @@ module.exports=(port)=>{
 const express = require('express')
 const path= require('path')
 const bodyparser=require('body-parser')
-const router=require('./routes/router.js')
+//const router=require('./routes/router.js')
 const cors=require('cors')
 const app=express()
 const http=require('http').Server(app)
