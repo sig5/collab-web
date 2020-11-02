@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npx nodemon server.js",
+    "start": "npx nodemon handler.js",
     "stop": "loadbalancer stop"
   },
   "author": "",
