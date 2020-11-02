@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "loadbalancer start --config config.json",
+    "start": "npx nodemon server.js",
     "stop": "loadbalancer stop"
   },
   "author": "",
