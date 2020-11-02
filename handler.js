@@ -5,7 +5,6 @@ let server=require('./server')
 const dotenv = require('dotenv');
 dotenv.config();
 
-server(process.env.PORT1);
-server(process.env.PORT2);
-server(process.env.PORT3);
+server(process.env.PORT);
+
 
