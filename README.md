@@ -1,4 +1,4 @@
-# collab-web
+# collab-web-A scalable virtual whiteboard application
 # Architecture
 
 ![](https://github.com/sig5/collab-web/blob/master/views/images/archi.png)
