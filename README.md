@@ -53,6 +53,8 @@ REDIS_PORT
 REDIS_PASS  
 ## KEYS
 SECRET_KEY  
+
+config.json can be edited to maintain load balancing parameters.  
 # How to run:
 1->enter "Node path/to/handler.js" in the terminal.  
 2->enter npm start to start the load balancer at port 8080.  
