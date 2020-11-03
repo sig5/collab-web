@@ -1,10 +1,4 @@
 # collab-web-A Scalable Virtual Whiteboard Platform
-## Contribution guidelines:
-1.Mention your issue or comment on an already on-board issue and start working on it by forking it in your repository.  
-2.Create a pull request.If appropriately done, Will be merged or you might be asked to improve upon it.  
-3.Try to make your solution scalable as it is the essence of this project.   
-## Bugs and Feature requests
-1.Create an issue for the same.
 
 # Architecture
 
@@ -67,5 +61,12 @@ config.json can be edited to maintain load balancing parameters.
 2->enter npm start to start the load balancer at port 8080.  
 3->The website is accessible on the "localhost:8080".  
 4->npm stop will stop the load balancer.
+
+## Contribution guidelines:
+1.Mention your issue or comment on an already on-board issue and start working on it by forking it in your repository.  
+2.Create a pull request.If appropriately done, Will be merged or you might be asked to improve upon it.  
+3.Try to make your solution scalable as it is the essence of this project.   
+## Bugs and Feature requests
+1.Create an issue for the same.
 
 
