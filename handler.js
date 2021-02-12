@@ -1,7 +1,7 @@
 //const server = require('./server')
 
 let server=require('./server')
-//configured to run 5 servers
+//configured to run 3 servers
 const dotenv = require('dotenv');
 dotenv.config();
 

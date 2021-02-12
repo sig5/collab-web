@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -23,6 +24,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.4",
     "pug": "^3.0.0",
+    "redis": "^3.0.2",
     "request": "^2.88.2",
     "socket.io": "^2.3.0",
     "uuid": "^8.3.0",

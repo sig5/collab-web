@@ -1,0 +1,13 @@
+internal/fs/utils.js:779
+  throw new ERR_INVALID_ARG_TYPE(
+  ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received type number (15750)
+    at Object.writeFileSync (fs.js:1460:5)
+    at writePid (/home/sakar/collab-web/node_modules/forever/bin/monitor:13:6)
+    at exports.Monitor.<anonymous> (/home/sakar/collab-web/node_modules/forever/bin/monitor:46:5)
+    at exports.Monitor.EventEmitter.emit (/home/sakar/collab-web/node_modules/eventemitter2/lib/eventemitter2.js:339:22)
+    at /home/sakar/collab-web/node_modules/forever-monitor/lib/forever-monitor/monitor.js:172:10
+    at processTicksAndRejections (internal/process/task_queues.js:75:11) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
