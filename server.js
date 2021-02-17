@@ -51,7 +51,6 @@ module.exports = (port) => {
                 lst.push(userData.user);
                 lst = Array.from(new Set(lst));
                 pub.set(userData.room + 'list', JSON.stringify(lst));
-
             }
 
         });
@@ -110,29 +109,33 @@ module.exports = (port) => {
 
         console.log('registered' + room)
         sub.on('message', (channel, message) => {
+            console.log(channel)
+            if(channel.localeCompare(room)==0)
             client.emit("data", message);
             console.log('message recieved on redis instance' + message.substr(1, 100));
         });
 
-        {
-            client.on('message', (message) => {
-                pub.get(room + 'read', (err, res) => {
-                    console.log(res);
-                    if (res.localeCompare("false") == 0)
-                        pub.publish(room, message);
-                    else if (current.localeCompare(res) == 0) {
-                        console.log(user + res);
-                        pub.publish(room, message);
-                    }
 
-                });
-                //pub.publish(room,message);
+        client.on('message', (message) => {
+            pub.get(room + 'read', (err, res) => {
+                console.log(res);
+                if (res.localeCompare("false") == 0)
+                    pub.publish(room, message);
+                else if (current.localeCompare(res) == 0) {
+                    console.log(user + res);
+                    pub.publish(room, message);
+                }
+
             });
-
-        }
+            //pub.publish(room,message);
+        });
         client.on('cache', (data) => {
             // console.log("recieved cache")
             pub.set(room, data);
+        });
+        client.on('call',(data)=>{
+            pub.publish()
+
         });
 
         setInterval(async () => {

@@ -3,7 +3,7 @@
 //mode==1 ->rectangle/shape?
 //mode==2 -> text
 //mode==3 ->image
-
+const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
     var instances = M.FloatingActionButton.init(elems, {
@@ -30,6 +30,8 @@ let to_board=[];
 let to_size=[];
 let events=[];
 let undone=[];
+let peers=[];
+let lst=[];
 let mode=0;
 var writetext="dummy";
 let is_rect=false,is_circle=false;
@@ -208,7 +210,7 @@ img.onload = function(){
 img.src = data;
 
 })
-socket.on("data",(message)=>{
+socket.on("data",async (message)=>{
     console.log("recieving..."+message);
     if(JSON.parse(message)['type'].localeCompare('color_pen')==0)
     {
@@ -237,7 +239,6 @@ socket.on("data",(message)=>{
     }
     if(JSON.parse(message)['type'].localeCompare('data_stream')==0)
     draw_recieved(message,JSON.parse(message)['user']);
-    else console.log('oops')
     if(JSON.parse(message)['type'].localeCompare('chat')==0)
     {
         showchat(JSON.parse(message)['message'],JSON.parse(message)['user']);
@@ -276,6 +277,38 @@ img.onload = function(){
 img.src = dummy;
     
     }
+    if(JSON.parse(message)['type'].localeCompare('offer')==0)
+    {
+        if(JSON.parse(message)['user'].localeCompare(getCookie('user')))
+        {console.log('offer received');
+        let connect= new RTCPeerConnection(configuration);
+        connect.ontrack=({streams:[stream]})=>
+        {
+            console.log('here');
+            const remoteVideo=document.getElementById('remote-video');
+            if(remoteVideo)
+            {
+                remoteVideo.srcObject=stream;
+            }
+        }
+        await connect.setRemoteDescription(new RTCSessionDescription( JSON.parse(message)['value']));
+        const answer= await connect.createAnswer();
+        await connect.setLocalDescription(new RTCSessionDescription(answer));
+   
+        socket.emit('message',JSON.stringify({type:'answer',user:getCookie('user'),answer:answer}));
+        console.log('sending answer');
+    }
+        
+    }
+    if(JSON.parse(message)['type'].localeCompare('answer')==0)
+    {
+        if(JSON.parse(message)['user'].localeCompare(getCookie('user')))
+       { console.log('answer received')
+        console.log('peers are'+ peers)
+        peers[JSON.parse(message)['user']].setRemoteDescription(JSON.parse(message)['answer']);
+     
+    }
+    }
 });
 socket.on('occupants',(message)=>{
 console.log(message);
@@ -309,7 +342,7 @@ function save_image()
 {
     download=document.getElementById("saver");
     download.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-    
+    const configuration = {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]}
 }
 function change_to_rect(num){
     mode=1;
@@ -488,3 +521,31 @@ function readonly()
     {
         socket.emit('read-only','false');
     }
+const { RTCPeerConnection, RTCSessionDescription} = window;
+
+async function broadCast()
+{
+   for(ls of lst){
+       if(ls.localeCompare(getCookie('user'))!=0)
+{
+    console.log('sending offer')
+    const conn=new RTCPeerConnection(configuration);
+    navigator.getUserMedia({video:true,audio:true},stream=>{
+        const localVideo=document.getElementById('local-video');
+        if(localVideo)
+        {
+            localVideo.srcObject=stream;
+        }
+        stream.getTracks().forEach(track=>{conn.addTrack(track,stream)})
+    },(e)=>{console.log(e);});
+    const offer=await conn.createOffer();
+    await conn.setLocalDescription(new RTCSessionDescription(offer));
+     peers[ls]=conn;
+     console.log(peers)
+     socket.emit('message',JSON.stringify({type:'offer',user:getCookie('user'),value:offer}));
+
+
+}}}
+document.getElementById('start-call').addEventListener('click',()=>{
+    broadCast();
+})
